@@ -1,0 +1,47 @@
+{
+  "name": "mern-book-client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "bootstrap": "^5.3.3",
+    "emailjs-com": "^3.2.0",
+    "firebase": "^10.4.0",
+    "flowbite-react": "^0.6.4",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.1",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.10.2",
+    "react-bootstrap-icons": "^1.11.4",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.11.0",
+    "react-router-dom": "^6.16.0",
+    "react-scroll": "^1.8.9",
+    "react-slick": "^0.30.2",
+    "sass": "^1.77.6",
+    "slick-carousel": "^1.8.1",
+    "sort-by": "^0.0.2",
+    "swiper": "^10.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "autoprefixer": "^10.4.16",
+    "daisyui": "^4.12.2",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "postcss": "^8.4.30",
+    "tailwindcss": "^3.3.3",
+    "vite": "^4.4.5"
+  }
+}
