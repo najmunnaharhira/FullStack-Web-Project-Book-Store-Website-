@@ -54,7 +54,7 @@ const FooterMain = () => {
                 ></iframe>
                 <h2 className="mt-4 text-2xl font-bold tracking-tight text-gray-900">Google Live Location</h2>
                 <p className="mt-2">
-                  <a href="https://maps.google.com/?q=Gyan+Kosh+Library+Chittagong" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 transition-colors duration-300">Find us on Google Maps</a>
+                  <a href="https://maps.google.com/?q=Gyan+Kosh+Library+Chittagong" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-red-700 transition-colors duration-300">Find us on Google Maps</a>
                 </p>
               </div>
             </Footer.LinkGroup>

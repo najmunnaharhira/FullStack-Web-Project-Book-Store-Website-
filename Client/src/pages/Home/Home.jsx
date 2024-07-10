@@ -20,6 +20,7 @@ export const Home = () => {
       <BestSeller/>
       <FavoriteBook/>
       <PopularBook/>
+
       <BookCategories/>
     
       <PromoBanner/>

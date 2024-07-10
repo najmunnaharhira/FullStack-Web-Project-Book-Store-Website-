@@ -1,0 +1,48 @@
+/* Login.css */
+.min-h-screen {
+    background-color: #f8f9fa;
+}
+
+.bg-gray-100 {
+    background-color: #f7fafc;
+}
+
+.bg-indigo-500 {
+    background-color: #5a67d8;
+}
+
+.bg-indigo-700 {
+    background-color: #434190;
+}
+
+.text-indigo-600 {
+    color: #5a67d8;
+}
+
+.hover\:bg-indigo-700:hover {
+    background-color: #434190;
+}
+
+.bg-blue-800 {
+    background-color: #2b6cb0;
+}
+
+.hover\:bg-blue-800:hover {
+    background-color: #2b6cb0;
+}
+
+.bg-red-500 {
+    background-color: #f56565;
+}
+
+.hover\:bg-red-500:hover {
+    background-color: #f56565;
+}
+
+.hover\:opacity-80:hover {
+    opacity: 0.8;
+}
+
+.transition {
+    transition: all 0.3s ease;
+}

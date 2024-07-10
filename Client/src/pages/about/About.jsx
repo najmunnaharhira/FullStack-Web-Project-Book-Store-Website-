@@ -125,11 +125,21 @@ const About = () => {
         <div className="lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
           <div className="lg:pr-4">
             <div className="lg:max-w-lg">
-              <p className="text-base font-semibold leading-7 text-indigo-600 hover:text-indigo-800 transition-colors duration-300">About Us</p>
-              <h1 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl hover:text-yellow-600 transition-colors duration-300">Gyan Kosh Library</h1>
+              {/* <p className="text-base font-semibold leading-7 text-indigo-600 hover:text-red-800 transition-colors duration-300">About Us</p>
+              <h1 className="mt-2 text-4xl font-bold tracking-tight text-blue-900 sm:text-5xl hover:text-yellow-600 transition-colors duration-300">Gyan Kosh Library</h1>
               <p className="mt-6 text-xl leading-8 text-gray-700">
                 <span className="text-red-500 hover:text-red-700 transition-colors duration-300">Welcome</span> to <span className="text-blue-500 hover:text-blue-700 transition-colors duration-300">Gyan Kosh Library</span>, your ultimate destination for a vast collection of books and literary resources. Located in the heart of Katalgonj, Chittagong, we pride ourselves on providing an enriching environment for readers of all ages and interests.
-              </p>
+              </p> */}
+
+<p className="text-base font-semibold leading-7 text-indigo-600 hover:text-red-800 transition-colors duration-300">About Us</p>
+<h1 className="mt-2 text-4xl font-bold tracking-tight text-blue-900 sm:text-5xl hover:text-yellow-600 transition-colors duration-300">Gyan Kosh Library</h1>
+<p className="mt-6 text-xl leading-8 text-gray-700">
+  <span className="text-red-500 hover:text-red-700 transition-colors duration-300">Welcome</span> to <span className="text-blue-500 hover:text-blue-700 transition-colors duration-300">Gyan Kosh Library</span>, your ultimate destination for a vast collection of books and literary resources. Located in the heart of Katalgonj, Chittagong, we pride ourselves on providing an enriching environment for readers of all ages and interests.
+</p>
+
+
+
+
             </div>
           </div>
         </div>

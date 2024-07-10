@@ -1,5 +1,5 @@
 import BannerCard from "../shared/BannerCard";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const categories = [
     "Fantasy",
@@ -18,10 +18,52 @@ const categories = [
     "Art and design"
 ];
 
+const colors = ["text-pink-600", "text-orange-600", "text-red-600"]; // Add more colors as needed
+
 export const Banner = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [typedText, setTypedText] = useState("");
+    const [textIndex, setTextIndex] = useState(0);
+    const textArray = [
+        "Buy and Sell Your Books For The Best Prices ",
+
+        "Discover New Worlds",
+        "Immerse Yourself in Stories",
+        "Expand Your Imagination",
+        "Journey Through Pages",
+        "Find Your Next Favorite Book"
+
+    ];
+
+    useEffect(() => {
+        const typingInterval = setInterval(() => {
+            setTypedText((prevText) => {
+                const newText = prevText + textArray[textIndex].charAt(prevText.length);
+                if (newText === textArray[textIndex]) {
+                    clearInterval(typingInterval);
+                }
+                return newText;
+            });
+        }, 400); // Adjust typing speed as needed
+
+        return () => clearInterval(typingInterval);
+    }, [textIndex]);
+
+    useEffect(() => {
+        // Reset typing effect and start typing the next text
+        if (typedText === textArray[textIndex]) {
+            setTimeout(() => {
+                setTextIndex((prevIndex) => (prevIndex + 1) % textArray.length); // Cycle through textArray
+                setTypedText(""); // Reset typedText for new animation
+            }, 2000); // Delay before starting to type the next text
+        }
+    }, [typedText, textIndex]);
+
+    const getColorClass = (index) => {
+        return colors[index % colors.length];
+    };
 
     const handleSearch = async () => {
         try {
@@ -66,11 +108,18 @@ export const Banner = () => {
                 {/* Left side */}
                 <div className='md:w-1/2 space-y-8 bg-teal-100'>
                     <h1 className='lg:text-6xl text-5xl font-bold text-black mb-5 lg:leading-tight leading-snug'>
-                        Buy and sell your books <span className='text-blue-700'>for the best prices</span>
+                        {typedText}
+                        <span className={getColorClass(textIndex)}>
+                            {textArray[textIndex].substring(typedText.length)}
+                        </span>
                     </h1>
-                    <p>
+                    {/* <p>
                         Find and read more books you will love, and keep track of the books you want to read. Be part of the world's largest community of book lovers on Goodreads.
-                    </p>
+                    </p> */}
+
+<p className="text-lg text-gray-700 hover:text-blue-700 hover:text-xl hover:font-bold">
+      Find and read more books you will love, and keep track of the books you want to read. Be part of the world's largest community of book lovers on Goodreads.
+    </p>
                     <div className='flex items-center'>
                         <input
                             type="search"

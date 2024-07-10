@@ -3,6 +3,7 @@ import App from "../App";
 import Blog from "../pages/blog/Blog";
 import BrowsingHistory from "../pages/BrowsingHistory/history";
 import BuyCart from "../pages/BuyCart";
+import CartDetails from "../pages/shared/CartDetails";
 import CheckOutPage from "../pages/CheckOutPage";
 import Dashboard from "../Dashboard/Dashboard";
 import EditBooks from "../Dashboard/EditBooks";
@@ -73,8 +74,16 @@ const router = createBrowserRouter([
         path: "/cart",
         element: <BuyCart />,
       },
+
+ 
   //   ]
   // },
+
+
+  {
+    path: "/cartDetails",
+    element: <CartDetails/>
+  },
   {
     path: "/reviews",
     element: <Reviews />
