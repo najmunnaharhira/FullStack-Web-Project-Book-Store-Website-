@@ -10,6 +10,7 @@ import EditBooks from "../Dashboard/EditBooks";
 import ErrorPage from "../pages/shared/ErrorPage";
 import GiftCards from "../pages/GiftCards/giftcards";
 import Login from "../pages/Login";
+import LoginNavbar from "../pages/shared/LoginNavbar";
 import Logout from "../pages/Logout";
 import ManageBooks from "../Dashboard/ManageBooks";
 import OurServices from "../pages/services/OurServices";
@@ -79,6 +80,9 @@ const router = createBrowserRouter([
   //   ]
   // },
 
+      {
+        path: "/loginNavbar",
+        element: <LoginNavbar/> },
 
   {
     path: "/cartDetails",
