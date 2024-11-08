@@ -241,7 +241,7 @@ const LoginNavbar = () => {
     const navigate = useNavigate();
 
     const navItems = [
-        { link: 'Home', path: '/HomeAfterLogin' },
+        { link: 'Home', path: '/' },
         { link: 'About', path: '/about' },
         { link: 'Shop', path: '/shop' },
         { link: 'Our Services', path: '/services' },
