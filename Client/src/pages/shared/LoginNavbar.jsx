@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaBarsStaggered, FaMoon, FaSearch, FaSun, FaXmark } from "react-icons/fa";
+import { FaBarsStaggered, FaMoon, FaSun, FaXmark } from "react-icons/fa6";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 
 const LoginNavbar = () => {
@@ -76,17 +76,20 @@ const LoginNavbar = () => {
     };
 
     const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+
     useEffect(() => {
         const interval = setInterval(() => {
             setPlaceholderIndex((prevIndex) =>
                 prevIndex === placeholderTexts.length - 1 ? 0 : prevIndex + 1
             );
         }, 3000);
+
         return () => clearInterval(interval);
     }, [placeholderTexts]);
 
     const handleSignInClick = () => navigate('/login');
- return (
+
+    return (
         <header className="w-full bg-transparent fixed top-0 left-0 right-0 transition-all ease-in duration-300">
             <nav className={`py-4 lg:px-24 px-4 ${isSticky ? 'sticky top-0 left-0 right-0 bg-blue-300' : ''}`}>
                 <div className="flex justify-between items-center">
