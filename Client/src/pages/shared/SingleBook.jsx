@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Card } from "flowbite-react";
 import { useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 function SingleBook() {
   const { id } = useParams();
-  const navigate = useNavigate(); // Get the navigate function from react-router-dom
+  const navigate = useNavigate();
+  const { user, loading: authLoading } = useContext(AuthContext); // Access user info and loading state
   const [book, setBook] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBook = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/book/${id}`);
         setBook(response.data);
-        setLoading(false);
       } catch (err) {
         setError(err);
+      } finally {
         setLoading(false);
       }
     };
@@ -26,14 +28,18 @@ function SingleBook() {
   }, [id]);
 
   const handleAddToCart = async () => {
+    if (!user) {
+      alert("Please log in to add items to your cart.");
+      navigate("/login");
+      return;
+    }
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5000/cartItems",
-        { book_id: id },
-        { withCredentials: true } // Include this option if you are using cookies for authentication
+        { user_id: user.id, book_id: id },
+        { withCredentials: true }
       );
       alert("Book added to cart successfully!");
-      // You can update the UI to reflect the change in cart count
     } catch (err) {
       console.error("Error adding book to cart:", err);
       alert("Failed to add book to cart.");
@@ -41,36 +47,40 @@ function SingleBook() {
   };
 
   const handleAddToWishlist = async () => {
+    if (!user) {
+      alert("Please log in to add items to your wishlist.");
+      navigate("/login");
+      return;
+    }
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5000/wishlist",
-        { book_id: id },
-        { withCredentials: true } // Include this option if you are using cookies for authentication
+        { user_id: user.id, book_id: id },
+        { withCredentials: true }
       );
       alert("Added to Wishlist successfully");
-      // You can update the UI to reflect the change in wishlist items
-    } catch (error) {
-      console.error("Error adding to Wishlist:", error);
+    } catch (err) {
+      console.error("Error adding to Wishlist:", err);
       alert("Failed to add to Wishlist.");
     }
   };
 
   const handleBuyNow = () => {
-    // Navigate to checkout with selectedBooks and totalPayment state
-    navigate("/checkout", {
-      state: { selectedBooks: [book], totalPayment: book.price },
-    });
+    if (book) {
+      navigate("/checkout", {
+        state: { selectedBooks: [book], totalPayment: book.price },
+      });
+    }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading || authLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading book: {error.message}</div>;
+  if (!book) return <div>Sorry, we couldn’t find the page you’re looking for.</div>;
 
   return (
     <div className="my-28 px-4 lg:px-24">
-      <h2 className="text-3xl font-bold text-center text-blue-600 hover:underline mb-16 z-40">Book Details:{book.bookTitle}
-      <p className="font-normal text-gray-700 dark:text-gray-400">
-          Author: <span className="text-blue-600 hover:underline">{book.authorName || "Unknown"}</span>
-        </p>
+      <h2 className="text-3xl font-bold text-center text-blue-600 hover:underline mb-16 z-40">
+        Book Details: {book.bookTitle}
       </h2>
       <Card className="mx-auto max-w-2xl">
         <img

@@ -229,20 +229,39 @@ app.get("/wishlist", async (req, res) => {
   }
 });
 
-// Add to cart
-app.post("/cartItems", async (req, res) => {
+// // Add to cart
+// app.post("/cartItems", async (req, res) => {
+//   const { user_id, book_id } = req.body;
+
+//   try {
+//     const [rows] = await pool.query(
+//       "INSERT INTO CartItems (user_id, book_id) VALUES (?, ?)",
+//       [user_id, book_id]
+//     );
+//     res.status(201).send({ message: "Item added to cart successfully" });
+//   } catch (err) {
+//     res.status(500).send(err.message);
+//   }
+// });
+app.post("/CartItems", async (req, res) => {
   const { user_id, book_id } = req.body;
 
+  if (!user_id || !book_id) {
+    return res.status(400).send({ error: "user_id and book_id are required" });
+  }
+
   try {
-    const [rows] = await pool.query(
+    const [result] = await pool.query(
       "INSERT INTO CartItems (user_id, book_id) VALUES (?, ?)",
       [user_id, book_id]
     );
     res.status(201).send({ message: "Item added to cart successfully" });
   } catch (err) {
-    res.status(500).send(err.message);
+    console.error("Error adding item to cart:", err); // Log for debugging
+    res.status(500).send({ error: "Database error: " + err.message });
   }
 });
+
 
 app.post('/checkout', async (req, res) => {
   const { name, email, phone, shippingAddress, paymentMethod, totalPayment, bookIds } = req.body;
