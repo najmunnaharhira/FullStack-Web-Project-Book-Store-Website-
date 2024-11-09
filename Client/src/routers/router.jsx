@@ -12,6 +12,8 @@ import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import ManageBooks from "../Dashboard/ManageBooks";
 import OurServices from "../pages/services/OurServices";
+import PaymentFailed from "../pages/PaymentFaild/paymentFaild";
+import PaymentSuccess from "../pages/PaymentSuccess/paymentSuccess";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import ProtectedRoute from "../routers/ProtectedRoute";
 import Recommendation from "../pages/Recommendation/recommendations";
@@ -28,82 +30,34 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
-      {
-        path: "/",
-        element: <Home />
-      },
-      {
-        path: "/shop",
-        element: <Shop />,
-      },
-      {
-        path: "/services",
-        element: <OurServices />
-      },
+      { path: "/", element: <Home /> },
+      { path: "/shop", element: <Shop /> },
+      { path: "/services", element: <OurServices /> },
       {
         path: "/book/:id",
         element: <SingleBook />,
-        loader: ({ params }) => fetch(http://localhost:5000/book/${params.id})
+        loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
       },
-      {
-        path: "/about",
-        element: <About/>
-      },
-      {
-        path: "/blog",
-        element: <Blog/>
-      }
+      { path: "/about", element: <About /> },
+      { path: "/blog", element: <Blog /> }
     ]
   },
+  { path: "/gift-cards", element: <GiftCards /> },
+  { path: "/history", element: <BrowsingHistory /> },
   {
-    path: "/gift-cards",
-    element: <GiftCards />,
+    path: "/cart",
+    element: <ProtectedRoute><BuyCart /></ProtectedRoute>
   },
+  { path: "/reviews", element: <Reviews /> },
   {
-    path: "/history",
-    element: <browsingHistory />, // Assuming BrowsingHistory is correctly imported
+    path: "/checkout",
+    element: <ProtectedRoute><CheckOutPage /></ProtectedRoute>
   },
-  // {
-  //   path: "/cart",
-  //   element: <ProtectedRoute />, // Assuming ProtectedRoute is correctly imported
-  //   children: [
-      {
-        path: "/cart",
-        element: <BuyCart />,
-      },
-  //   ]
-  // },
-  {
-    path: "/reviews",
-    element: <Reviews />
-  },
-  // {
-  //   path: "/checkout",
-  //   element: <ProtectedRoute />, // Assuming ProtectedRoute is correctly imported
-  //   children: [
-      {
-        path: "/checkout",
-        element: <CheckOutPage />,
-      },
-  //   ]
-  // },
-  {
-    path:"payment/success/tranId",
-    element:<PaymentSucess></PaymentSucess>,
-  },
-
-  {
-    path:"payment/fail/tranId",
-    element:<PaymentFaild></PaymentFaild>,
-  },
-
-
-  {
-            path: "/recommendations",
-            element: <Recommendation />
-          },
+  { path: "payment/success/:tranId", element: <PaymentSuccess /> },
+  { path: "payment/fail/:tranId", element: <PaymentFailed /> },
+  { path: "/recommendations", element: <Recommendation /> },
   {
     path: "/admin/dashboard",
     element: <DashboardLayout />,
@@ -114,29 +68,13 @@ const router = createBrowserRouter([
       {
         path: "/admin/dashboard/edit-books/:id",
         element: <EditBooks />,
-        loader: ({ params }) => fetch(http://localhost:5000/book/${params.id})
-      },
-    ],
+        loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
+      }
+    ]
   },
-  {
-    path: "/login",
-    element: <Login />
-  },
-
-
-
-  {
-    path: "/history",
-    element: <BrowsingHistory />
-  },
-  {
-    path: "/create-user",
-    element: <Signup />
-  },
-  {
-    path: "/logout",
-    element: <Logout />
-  }
+  { path: "/login", element: <Login /> },
+  { path: "/create-user", element: <Signup /> },
+  { path: "/logout", element: <Logout /> }
 ]);
 
 export default router;
