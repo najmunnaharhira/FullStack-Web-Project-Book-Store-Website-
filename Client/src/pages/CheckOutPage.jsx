@@ -244,9 +244,9 @@ const CheckOutPage = () => {
               <label htmlFor="rocket">Rocket</label>
             </div>
           </div>
-          <div style={styles.totalPayment}>
-            <h3>Total Payment: TK {payableTotal.toFixed(2)}</h3>
-          </div>
+          <div className="amount">
+          <h3>Total Payment: TK {(Number(totalPayment) || 0).toFixed(2)}</h3>
+        </div>
           <div style={styles.checkoutActions}>
             <button type="submit" style={{ ...styles.button, ...styles.confirmButton }}>Confirm Order</button>
             <button type="button" onClick={() => navigate("/cart")} style={{ ...styles.button, ...styles.backButton }}>
