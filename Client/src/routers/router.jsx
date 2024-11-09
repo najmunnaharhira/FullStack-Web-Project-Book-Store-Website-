@@ -3,14 +3,12 @@ import App from "../App";
 import Blog from "../pages/blog/Blog";
 import BrowsingHistory from "../pages/BrowsingHistory/history";
 import BuyCart from "../pages/BuyCart";
-import CartDetails from "../pages/shared/CartDetails";
 import CheckOutPage from "../pages/CheckOutPage";
 import Dashboard from "../Dashboard/Dashboard";
 import EditBooks from "../Dashboard/EditBooks";
 import ErrorPage from "../pages/shared/ErrorPage";
 import GiftCards from "../pages/GiftCards/giftcards";
 import Login from "../pages/Login";
-import LoginNavbar from "../pages/shared/LoginNavbar";
 import Logout from "../pages/Logout";
 import ManageBooks from "../Dashboard/ManageBooks";
 import OurServices from "../pages/services/OurServices";
@@ -47,7 +45,7 @@ const router = createBrowserRouter([
       {
         path: "/book/:id",
         element: <SingleBook />,
-        loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
+        loader: ({ params }) => fetch(http://localhost:5000/book/${params.id})
       },
       {
         path: "/about",
@@ -75,19 +73,8 @@ const router = createBrowserRouter([
         path: "/cart",
         element: <BuyCart />,
       },
-
- 
   //   ]
   // },
-
-      {
-        path: "/loginNavbar",
-        element: <LoginNavbar/> },
-
-  {
-    path: "/cartDetails",
-    element: <CartDetails/>
-  },
   {
     path: "/reviews",
     element: <Reviews />
@@ -103,6 +90,17 @@ const router = createBrowserRouter([
   //   ]
   // },
   {
+    path:"payment/success/tranId",
+    element:<PaymentSucess></PaymentSucess>,
+  },
+
+  {
+    path:"payment/fail/tranId",
+    element:<PaymentFaild></PaymentFaild>,
+  },
+
+
+  {
             path: "/recommendations",
             element: <Recommendation />
           },
@@ -116,7 +114,7 @@ const router = createBrowserRouter([
       {
         path: "/admin/dashboard/edit-books/:id",
         element: <EditBooks />,
-        loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
+        loader: ({ params }) => fetch(http://localhost:5000/book/${params.id})
       },
     ],
   },

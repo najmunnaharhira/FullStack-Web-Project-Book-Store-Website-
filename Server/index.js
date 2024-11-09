@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const SSLCommerzPayment = require('sslcommerz-lts')
 const cors = require("cors");
 const mysql = require("mysql2/promise");
 const bcrypt = require("bcrypt");
@@ -16,6 +17,11 @@ const dbConfig = {
   password: "",
   database: "BookInventory",
 };
+
+const store_id = process.env.STORE_ID;
+const store_passwd = process.env.STORE_PASS;
+const is_live = false //true for live, false for sandbox
+
 
 // Initialize MySQL connection pool
 const pool = mysql.createPool(dbConfig);
@@ -120,13 +126,13 @@ app.patch("/book/:id", async (req, res) => {
   const id = req.params.id;
   const updateBookData = req.body;
   const fields = Object.keys(updateBookData)
-    .map((field) => `${field} = ?`)
+    .map((field) => ${field} = ?)
     .join(", ");
   const values = Object.values(updateBookData);
 
   try {
     const [result] = await pool.query(
-      `UPDATE books SET ${fields} WHERE id = ?`,
+      UPDATE books SET ${fields} WHERE id = ?,
       [...values, id]
     );
     res.send(result);
@@ -229,38 +235,98 @@ app.get("/wishlist", async (req, res) => {
   }
 });
 
-// // Add to cart
-// app.post("/cartItems", async (req, res) => {
-//   const { user_id, book_id } = req.body;
-
-//   try {
-//     const [rows] = await pool.query(
-//       "INSERT INTO CartItems (user_id, book_id) VALUES (?, ?)",
-//       [user_id, book_id]
-//     );
-//     res.status(201).send({ message: "Item added to cart successfully" });
-//   } catch (err) {
-//     res.status(500).send(err.message);
-//   }
-// });
-app.post("/CartItems", async (req, res) => {
+// Add to cart
+app.post("/cartItems", async (req, res) => {
   const { user_id, book_id } = req.body;
 
-  if (!user_id || !book_id) {
-    return res.status(400).send({ error: "user_id and book_id are required" });
-  }
-
   try {
-    const [result] = await pool.query(
+    const [rows] = await pool.query(
       "INSERT INTO CartItems (user_id, book_id) VALUES (?, ?)",
       [user_id, book_id]
     );
     res.status(201).send({ message: "Item added to cart successfully" });
   } catch (err) {
-    console.error("Error adding item to cart:", err); // Log for debugging
-    res.status(500).send({ error: "Database error: " + err.message });
+    res.status(500).send(err.message);
   }
 });
+ const tran_id = new ObjectId(),tostring();
+
+app.post("/checkout",async(req,res)=>{
+
+  const product = await productCollection.findone({
+    _id: new ObjectId(req.body.productId),
+  });
+  const checkout =req.body;
+  console.log(product);
+  //console.log(req.body);
+  const data = {
+    total_amount: product?.price,
+    currency: order.currency,
+    tran_id: tran_id , // use unique tran_id for each api call
+    success_url: 'http://localhost:5000/payment/success/${tran_Id}',
+    fail_url: 'http://localhost:3030/fail',
+    cancel_url: 'http://localhost:3030/cancel',
+    ipn_url: 'http://localhost:3030/ipn',
+    shipping_method: 'Courier',
+    product_name: 'Computer.',
+    product_category: 'Electronic',
+    product_profile: 'general',
+    cus_name: order.name,
+    cus_email: 'customer@example.com',
+    cus_add1: order.address,
+    cus_add2: 'Dhaka',
+    cus_city: 'Dhaka',
+    cus_state: 'Dhaka',
+    cus_postcode: '1000',
+    cus_country: 'Bangladesh',
+    cus_phone: '01711111111',
+    cus_fax: '01711111111',
+    ship_name: 'Customer Name',
+    ship_add1: 'Dhaka',
+    ship_add2: 'Dhaka',
+    ship_city: 'Dhaka',
+    ship_state: 'Dhaka',
+    ship_postcode: 1000,
+    ship_country: 'Bangladesh',
+};
+  console.log(data);
+ const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+   sslcz.init(data).then(apiResponse => {
+    // Redirect the user to payment gateway
+    let GatewayPageURL = apiResponse.GatewayPageURL;
+    res.send({url:GatewayPageURL});
+    
+    const finalOrder = {
+      product,
+      paidStatus:false,
+      tranjectionId: tran_id,
+    }
+     
+    const result = orderCollection.insertOne(finalOrder);
+    console.log('Redirecting to: ', GatewayPageURL);
+});
+
+app.post("/payment/success/:tranId",async(req,res)=>{
+      console.log(req.params.tranId);
+      const result = await  OderCollection.updateOne({tranjectionId:req.params.tranId},{
+        $set: {
+          paidStatus:true,
+        },
+      });
+       console.log(result);
+      if (result.modifiedCount>0){
+        res.redirect('http://localhost:5173/payment/success/${req.params.tranId}'
+        );
+      }
+});
+   app.post("/payment/fail/:tranId",async(req,res)=>{
+      const result = OrderCollection.deleteOne({transactionId:req.params.tranId});
+      if(result.deleteCount){
+         res.redirect('http://localhost:5173/payment/fail/${req.params.tranId}')
+      }
+   })
+});
+
 
 
 app.post('/checkout', async (req, res) => {
@@ -322,7 +388,7 @@ app.post("/wishlist", async (req, res) => {
 
 app.get('/tasks/:userId', (req, res) => {
   const userId = req.params.userId;
-  const sql = `SELECT * FROM tasks WHERE user_id = ?`;
+  const sql = SELECT * FROM tasks WHERE user_id = ?;
   db.query(sql, [userId], (err, results) => {
       if (err) throw err;
       res.json(results);
@@ -337,11 +403,16 @@ async function run() {
     connection.release();
 
     app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
+      console.log(Server running on port ${port});
     });
   } catch (err) {
     console.error("Unable to connect to MySQL:", err.message);
   }
 }
+
+
+
+
+
 
 run();
