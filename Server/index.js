@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
-const SSLCommerzPayment = require('sslcommerz-lts')
+// const SSLCommerzPayment = require('sslcommerz-lts')
+const sslcz = require('sslcommerz');
+
+
 const cors = require("cors");
 const mysql = require("mysql2/promise");
 const bcrypt = require("bcrypt");
@@ -15,7 +18,7 @@ const dbConfig = {
   host: "localhost",
   user: "root",
   password: "",
-  database: "BookInventory",
+  database: "bookinventory",
 };
 
 const store_id = process.env.STORE_ID;
@@ -121,25 +124,54 @@ app.post("/upload-book", async (req, res) => {
   }
 });
 
+// // Update a book
+// app.patch("/book/:id", async (req, res) => {
+//   const id = req.params.id;
+//   const updateBookData = req.body;
+//   const fields = Object.keys(updateBookData)
+//     .map((field) => ${field} = ?)
+//     .join(", ");
+//   const values = Object.values(updateBookData);
+
+//   try {
+//     const [result] = await pool.query(
+//       UPDATE books SET ${fields} WHERE id = ?,
+//       [...values, id]
+//     );
+//     res.send(result);
+//   } catch (err) {
+//     res.status(500).send(err.message);
+//   }
+// });
+
+
 // Update a book
 app.patch("/book/:id", async (req, res) => {
   const id = req.params.id;
   const updateBookData = req.body;
+
+  // Generate the field assignments for the SQL query (e.g. 'field1 = ?, field2 = ?')
   const fields = Object.keys(updateBookData)
-    .map((field) => ${field} = ?)
+    .map((field) => `${field} = ?`)  // Correct template literal
     .join(", ");
-  const values = Object.values(updateBookData);
+  
+  const values = Object.values(updateBookData);  // Values from the request body
 
   try {
+    // The SQL query
     const [result] = await pool.query(
-      UPDATE books SET ${fields} WHERE id = ?,
-      [...values, id]
+      `UPDATE books SET ${fields} WHERE id = ?`, // Wrap query with backticks for template literal
+      [...values, id]  // Add the book ID to the query values
     );
+
+    // Send the result back as a response
     res.send(result);
   } catch (err) {
+    // Send error response if something goes wrong
     res.status(500).send(err.message);
   }
 });
+
 
 // Delete a book
 app.delete("/book/:id", async (req, res) => {
@@ -249,16 +281,55 @@ app.post("/cartItems", async (req, res) => {
     res.status(500).send(err.message);
   }
 });
- const tran_id = new ObjectId(),tostring();
+//  const tran_id = new ObjectId(),tostring();
 
-app.post("/checkout",async(req,res)=>{
+// app.post("/checkout",async(req,res)=>{
 
-  const product = await productCollection.findone({
-    _id: new ObjectId(req.body.productId),
+//   const product = await productCollection.findone({
+//     _id: new ObjectId(req.body.productId),
+//   });
+//   const checkout =req.body;
+//   console.log(product);
+//   //console.log(req.body);
+
+
+const { ObjectId } = require("mongodb"); // Make sure to import ObjectId
+
+app.post("/checkout", async (req, res) => {
+  // Generate the transaction ID and convert to string
+  const tran_id = new ObjectId().toString();  // Correct way to generate ObjectId and convert to string
+
+  const product = await productCollection.findOne({
+    _id: new ObjectId(req.body.productId),  // Ensure correct usage of ObjectId for query
   });
-  const checkout =req.body;
-  console.log(product);
-  //console.log(req.body);
+
+  const checkout = req.body;
+
+  console.log(product); // Log product details to verify the data fetched
+  // console.log(req.body); // You can also log the request body to debug if needed
+
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+
+  // You can perform further operations here, such as storing the checkout details in a database, etc.
+  res.status(200).json({
+    message: "Checkout successful",
+    tran_id: tran_id, // Send the transaction ID in the response
+    product: product, // Include product details in the response
+  });
+});
+const product = {
+  price: 100,  // Example price value, replace it with the actual product price
+};
+
+const order = {
+  currency: 'BDT',
+  name: 'John Doe',
+  address: 'Dhaka, Bangladesh',
+};
+
+const tran_id = '12345';  // Example transaction ID
   const data = {
     total_amount: product?.price,
     currency: order.currency,
@@ -290,43 +361,148 @@ app.post("/checkout",async(req,res)=>{
     ship_country: 'Bangladesh',
 };
   console.log(data);
- const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
-   sslcz.init(data).then(apiResponse => {
-    // Redirect the user to payment gateway
-    let GatewayPageURL = apiResponse.GatewayPageURL;
-    res.send({url:GatewayPageURL});
+
+
+
+// sslcz.createTransaction(data)
+//     .then(apiResponse => {
+//         let GatewayPageURL = apiResponse.GatewayPageURL;
+//         res.send({ url: GatewayPageURL });
+
+//         const finalOrder = {
+//             product,
+//             paidStatus: false,
+//             tranjectionId: tran_id,
+//         };
+
+//         orderCollection.insertOne(finalOrder)
+//             .then(() => {
+//                 console.log('Redirecting to: ', GatewayPageURL);
+//             });
+//     })
+//     .catch(err => {
+//         console.error('Error creating transaction: ', err);
+//     });
+
+// app.post("/payment/success/:tranId",async(req,res)=>{
+//       console.log(req.params.tranId);
+//       const result = await  OderCollection.updateOne({tranjectionId:req.params.tranId},{
+//         $set: {
+//           paidStatus:true,
+//         },
+//       });
+//        console.log(result);
+//       if (result.modifiedCount>0){
+//         res.redirect('http://localhost:5173/payment/success/${req.params.tranId}'
+//         );
+//       }
+// });
+//    app.post("/payment/fail/:tranId",async(req,res)=>{
+//       const result = OrderCollection.deleteOne({transactionId:req.params.tranId});
+//       if(result.deleteCount){
+//          res.redirect('http://localhost:5173/payment/fail/${req.params.tranId}')
+//       }
+//    })
+// });
+
+// POST request for successful payment
+app.post("/payment/success/:tranId", async (req, res) => {
+  console.log(req.params.tranId);
+  
+  // Update the order to set paidStatus to true
+  const result = await OrderCollection.updateOne({ transactionId: req.params.tranId }, {
+    $set: {
+      paidStatus: true,
+    },
+  });
+
+  console.log(result);
+
+  if (result.modifiedCount > 0) {
+    res.redirect(`http://localhost:5173/payment/success/${req.params.tranId}`);
+  }
+});
+
+// POST request for failed payment
+app.post("/payment/fail/:tranId", async (req, res) => {
+  const result = await OrderCollection.deleteOne({ transactionId: req.params.tranId });
+  
+  if (result.deletedCount > 0) {
+    res.redirect(`http://localhost:5173/payment/fail/${req.params.tranId}`);
+  }
+});
+
+
+app.post("/checkout", async (req, res) => {
+  const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+  const data = req.body;  // Assuming 'data' is the payment data from the request
+
+  try {
+    // Initialize the payment and wait for the response
+    const apiResponse = await sslcz.init(data);
     
+    // Redirect the user to the payment gateway
+    let GatewayPageURL = apiResponse.GatewayPageURL;
+    res.send({ url: GatewayPageURL });
+    
+    // Prepare the final order data
     const finalOrder = {
-      product,
-      paidStatus:false,
-      tranjectionId: tran_id,
-    }
-     
-    const result = orderCollection.insertOne(finalOrder);
-    console.log('Redirecting to: ', GatewayPageURL);
+      product: req.body.product,  // Ensure you're passing the correct product data
+      paidStatus: false,  // Payment status
+      transactionId: new ObjectId().toString(),  // Transaction ID as ObjectId (if needed)
+    };
+
+    // MySQL query to insert the final order into the database
+    const query = `
+      INSERT INTO orders (product, paidStatus, transactionId)
+      VALUES (?, ?, ?)
+    `;
+    const values = [finalOrder.product, finalOrder.paidStatus, finalOrder.transactionId];
+
+    // Execute the query using the MySQL connection pool
+    pool.execute(query, values, (err, results) => {
+      if (err) {
+        console.error("Error inserting order:", err);
+        return res.status(500).send({ message: "Error processing the order" });
+      }
+
+      console.log('Order inserted successfully with ID:', results.insertId);
+      console.log('Redirecting to: ', GatewayPageURL);
+    });
+
+  } catch (error) {
+    // Handle any errors in the payment process or database operation
+    console.error("Error in payment initialization or order insertion:", error);
+    res.status(500).send({ message: "An error occurred while processing the payment" });
+  }
 });
 
-app.post("/payment/success/:tranId",async(req,res)=>{
-      console.log(req.params.tranId);
-      const result = await  OderCollection.updateOne({tranjectionId:req.params.tranId},{
-        $set: {
-          paidStatus:true,
-        },
-      });
-       console.log(result);
-      if (result.modifiedCount>0){
-        res.redirect('http://localhost:5173/payment/success/${req.params.tranId}'
-        );
-      }
-});
-   app.post("/payment/fail/:tranId",async(req,res)=>{
-      const result = OrderCollection.deleteOne({transactionId:req.params.tranId});
-      if(result.deleteCount){
-         res.redirect('http://localhost:5173/payment/fail/${req.params.tranId}')
-      }
-   })
+// POST request for successful payment
+app.post("/payment/success/:tranId", async (req, res) => {
+  console.log(req.params.tranId);
+  
+  // Update the order to set paidStatus to true
+  const result = await OrderCollection.updateOne({ transactionId: req.params.tranId }, {
+    $set: {
+      paidStatus: true,
+    },
+  });
+
+  console.log(result);
+
+  if (result.modifiedCount > 0) {
+    res.redirect(`http://localhost:5173/payment/success/${req.params.tranId}`);
+  }
 });
 
+// POST request for failed payment
+app.post("/payment/fail/:tranId", async (req, res) => {
+  const result = await OrderCollection.deleteOne({ transactionId: req.params.tranId });
+  
+  if (result.deletedCount > 0) {
+    res.redirect(`http://localhost:5173/payment/fail/${req.params.tranId}`);
+  }
+});
 
 
 app.post('/checkout', async (req, res) => {
@@ -386,14 +562,29 @@ app.post("/wishlist", async (req, res) => {
   }
 });
 
+// app.get('/tasks/:userId', (req, res) => {
+//   const userId = req.params.userId;
+//   const sql = SELECT * FROM tasks WHERE user_id = ?;
+//   db.query(sql, [userId], (err, results) => {
+//       if (err) throw err;
+//       res.json(results);
+//   });
+// });
 app.get('/tasks/:userId', (req, res) => {
   const userId = req.params.userId;
-  const sql = SELECT * FROM tasks WHERE user_id = ?;
+
+  // Add quotes around the SQL query string
+  const sql = "SELECT * FROM tasks WHERE user_id = ?";
+
   db.query(sql, [userId], (err, results) => {
-      if (err) throw err;
-      res.json(results);
+    if (err) {
+      console.error(err);  // Log the error for debugging purposes
+      return res.status(500).json({ message: 'An error occurred while fetching tasks' });
+    }
+    res.json(results);  // Send the results back as JSON
   });
 });
+
 
 async function run() {
   try {
@@ -402,17 +593,17 @@ async function run() {
     console.log("Successfully connected to MySQL!");
     connection.release();
 
+    // app.listen(port, () => {
+    //   console.log(Server running on port ${port});
+    // });
+
     app.listen(port, () => {
-      console.log(Server running on port ${port});
+      console.log(`Server running on port ${port}`);  // Use backticks for template literals
     });
+    
   } catch (err) {
     console.error("Unable to connect to MySQL:", err.message);
   }
 }
-
-
-
-
-
 
 run();

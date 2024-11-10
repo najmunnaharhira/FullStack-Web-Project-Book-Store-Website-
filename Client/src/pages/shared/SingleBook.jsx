@@ -132,4 +132,4 @@ function SingleBook() {
   );
 }
 
-export default SingleBook;
+export default SingleBook

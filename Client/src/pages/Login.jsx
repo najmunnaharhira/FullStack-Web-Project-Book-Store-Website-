@@ -137,7 +137,7 @@ export default function Login() {
     const navigate = useNavigate();
     const auth = getAuth();
 
-    const from = location.state?.from?.pathname || '/loginNavbar';
+    const from = location.state?.from?.pathname || '/LoginNavbar';
 
     // login with Google
     const handleGoogleLogin = () => {

@@ -9,6 +9,7 @@ import EditBooks from "../Dashboard/EditBooks";
 import ErrorPage from "../pages/shared/ErrorPage";
 import GiftCards from "../pages/GiftCards/giftcards";
 import Login from "../pages/Login";
+import LoginNavbar from "../pages/shared/LoginNavbar";
 import Logout from "../pages/Logout";
 import ManageBooks from "../Dashboard/ManageBooks";
 import OurServices from "../pages/services/OurServices";
@@ -41,19 +42,40 @@ const router = createBrowserRouter([
         loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
       },
       { path: "/about", element: <About /> },
+      { path: "/loginNavbar", element: <LoginNavbar /> },
+
       { path: "/blog", element: <Blog /> }
     ]
   },
   { path: "/gift-cards", element: <GiftCards /> },
   { path: "/history", element: <BrowsingHistory /> },
+  // {
+  //   path: "/cart",
+  //   element: <ProtectedRoute><BuyCart /></ProtectedRoute>
+  // },
+  { path: "/reviews", element: <Reviews /> },
+  // {
+  //   path: "/checkout",
+  //   element: <ProtectedRoute><CheckOutPage /></ProtectedRoute>
+  // },
+
   {
     path: "/cart",
-    element: <ProtectedRoute><BuyCart /></ProtectedRoute>
+    element: <BuyCart />,
   },
-  { path: "/reviews", element: <Reviews /> },
+//   ]
+// },
+{
+path: "/reviews",
+element: <Reviews />
+},
+// {
+//   path: "/checkout",
+//   element: <ProtectedRoute />, // Assuming ProtectedRoute is correctly imported
+//   children: [
   {
     path: "/checkout",
-    element: <ProtectedRoute><CheckOutPage /></ProtectedRoute>
+    element: <CheckOutPage />,
   },
   { path: "payment/success/:tranId", element: <PaymentSuccess /> },
   { path: "payment/fail/:tranId", element: <PaymentFailed /> },

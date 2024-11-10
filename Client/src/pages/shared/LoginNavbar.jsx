@@ -1,339 +1,136 @@
-import React, { useEffect, useState } from "react";
+import CartDetails from "./CartDetails";
+import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { FaBarsStaggered, FaMoon, FaSun, FaXmark } from "react-icons/fa6";
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
-
-// import React, { useEffect, useState } from "react";
-// import { FaSearch } from "react-icons/fa";
-// import { FaBarsStaggered, FaMoon, FaSun, FaXmark } from "react-icons/fa6";
-// import { Link, useNavigate, useOutletContext } from "react-router-dom";
-
-// const LoginNavbar = () => {
-//     const [isMenuOpen, setIsMenuOpen] = useState(false);
-//     const [isSticky, setIsSticky] = useState(false);
-//     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
-//     const [searchQuery, setSearchQuery] = useState('');
-//     const [searchResults, setSearchResults] = useState([]);
-//     const [placeholderIndex, setPlaceholderIndex] = useState(0);
-//     const { user } = useOutletContext() || {};
-//     const navigate = useNavigate();
-
-//     const navItems = [
-//         { link: 'Home', path: '/HomeAfterLogin' },
-//         { link: 'About', path: '/about' },
-//         { link: 'Shop', path: '/shop' },
-//         { link: 'Our Services', path: '/services' },
-//         { link: 'Sell Your Book', path: '/admin/dashboard' },
-//         { link: 'Blog', path: '/blog' },
-//         { link: 'Become a Seller', path: 'https://forms.gle/i9fmDB8hYVGx5Wyw6', external: true },
-//     ];
-
-//     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-//     useEffect(() => {
-//         const handleScroll = () => {
-//             setIsSticky(window.scrollY > 100);
-//         };
-//         window.addEventListener('scroll', handleScroll);
-//         return () => window.removeEventListener('scroll', handleScroll);
-//     }, []);
-
-//     useEffect(() => {
-//         const element = document.documentElement;
-//         if (theme === 'dark') {
-//             element.classList.add('dark');
-//             localStorage.setItem('theme', 'dark');
-//             document.body.classList.add('dark');
-//         } else {
-//             element.classList.remove('dark');
-//             localStorage.setItem('theme', 'light');
-//             document.body.classList.remove('dark');
-//         }
-//     }, [theme]);
-
-//     const placeholderTexts = [
-//         'Search by Books',
-//         'Search by Publishers',
-//         'Search by Authors',
-//         'Search by ISBN',
-//         'Search by Genre',
-//         'Search by Bestsellers',
-//         'Search by New Arrivals',
-//         'Search by Classics',
-//         'Search by Recommendations',
-//         'Search by Language',
-//         'Search by Series',
-//         'Search by Price Range',
-//         'Search by Publication Year',
-//     ];
-
-//     const handleSearch = async () => {
-//         try {
-//             const response = await fetch(`http://localhost:5000/all-books?query=${searchQuery}`);
-//             if (response.ok) {
-//                 const data = await response.json();
-//                 setSearchResults(data);
-//             } else {
-//                 console.error('Error fetching search results:', response.statusText);
-//             }
-//         } catch (error) {
-//             console.error('Error fetching search results:', error);
-//         }
-//     };
-
-//     const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
-
-//     useEffect(() => {
-//         const interval = setInterval(() => {
-//             setPlaceholderIndex((prevIndex) =>
-//                 prevIndex === placeholderTexts.length - 1 ? 0 : prevIndex + 1
-//             );
-//         }, 3000);
-
-//         return () => clearInterval(interval);
-//     }, [placeholderTexts]);
-
-//     const handleSignInClick = () => navigate('/login');
-
-//     return (
-//         <header className="w-full bg-transparent fixed top-0 left-0 right-0 transition-all ease-in duration-300">
-//             <nav className={`py-4 lg:px-24 px-4 ${isSticky ? 'sticky top-0 left-0 right-0 bg-blue-300' : ''}`}>
-//                 <div className="flex justify-between items-center">
-//                     {/* Logo and Search */}
-//                     <div className="flex items-center gap-2">
-//                         <Link to="/" className="flex items-center gap-2">
-//                             <img
-//                                 src="https://www.shutterstock.com/shutterstock/photos/370209572/display_1500/stock-vector-bookstore-bookshop-book-shop-vector-logo-icon-symbol-emblem-sign-370209572.jpg"
-//                                 alt="BookShop Logo"
-//                                 className="w-16 h-16 rounded-full object-cover hover:scale-110 transition-transform duration-300"
-//                             />
-//                         </Link>
-//                         <div className="flex items-center relative">
-//                             <input
-//                                 type="search"
-//                                 placeholder={placeholderTexts[placeholderIndex]}
-//                                 className="py-3 px-4 pr-10 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-700 text-pink-700 bg-pink-100"
-//                                 value={searchQuery}
-//                                 onChange={(e) => setSearchQuery(e.target.value)}
-//                                 onKeyUp={handleSearch}
-//                             />
-//                             <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-400 hover:text-blue-700 transition-colors duration-300" />
-//                         </div>
-//                     </div>
-
-//                     {/* Sign In or User Profile */}
-//                     <div className="space-x-4 flex items-center relative">
-//                         {user ? (
-//                             <div className="relative">
-//                                 <img
-//                                     src={`http://localhost:5000${user.image || '/default-profile.png'}`}
-//                                     alt="Profile"
-//                                     className="w-8 h-8 rounded-full cursor-pointer"
-//                                     onClick={() => navigate('/profile')} // Example profile click
-//                                 />
-//                             </div>
-//                         ) : (
-//                             const handleSignInClick = () => {
-//                                 if (user) {
-//                                     navigate('/userDashboard'); // Redirect to user dashboard if logged in
-//                                 } else {
-//                                     navigate('/login'); // Redirect to login page if not logged in
-//                                 }
-//                             };
-                            
-//                             // Inside the JSX:
-//                             {user ? (
-//                                 <button
-//                                     className="bg-blue-700 px-6 py-3 text-pink-500 font-medium rounded-full ml-1 hover:bg-blue-400 transition-all ease-in duration-200 flex items-center whitespace-nowrap"
-//                                     onClick={handleSignInClick}
-//                                 >
-//                                     <img
-//                                         src="https://www.rokomari.com/static/200/images/svg/user-img.svg"
-//                                         alt="User Profile"
-//                                         className="w-6 h-6 mr-2"
-//                                     />
-//                                     Your Profile
-//                                 </button>
-//                             ) : (
-//                                 <button
-//                                     className="bg-blue-700 px-6 py-3 text-pink-500 font-medium rounded-full ml-1 hover:bg-blue-400 transition-all ease-in duration-200 flex items-center whitespace-nowrap"
-//                                     onClick={handleSignInClick}
-//                                 >
-//                                     <img
-//                                         src="https://www.rokomari.com/static/200/images/svg/user-img.svg"
-//                                         alt="User Profile"
-//                                         className="w-6 h-6 mr-2"
-//                                     />
-//                                     Your Profile
-//                                 </button>
-//                             )}
-                            
-                               
-
-//                     {/* Theme Toggle and Desktop Navigation */}
-//                     <div className="flex items-center space-x-4 ml-4">
-//                         <ul className="hidden md:flex space-x-6">
-//                             {navItems.map(({ link, path, external }) => (
-//                                 <li key={link}>
-//                                     {external ? (
-//                                         <a href={path} target="_blank" rel="noopener noreferrer" className="flex items-center text-base text-pink-500 hover:text-blue-700">
-//                                             {link}
-//                                         </a>
-//                                     ) : (
-//                                         <Link to={path} className="text-base text-pink-500 hover:text-blue-700">
-//                                             {link}
-//                                         </Link>
-//                                     )}
-//                                 </li>
-//                             ))}
-//                         </ul>
-
-//                         {/* Theme Toggle */}
-//                         <button onClick={toggleTheme} className="ml-2">
-//                             {theme === "dark" ? <FaSun className="w-6 h-6" /> : <FaMoon className="w-6 h-6" />}
-//                         </button>
-
-//                         {/* Mobile Menu Toggle */}
-//                         <button onClick={toggleMenu} className="md:hidden text-blue-700">
-//                             {isMenuOpen ? <FaXmark /> : <FaBarsStaggered />}
-//                         </button>
-//                     </div>
-//                 </div>
-//             </nav>
-
-//             {/* Mobile Menu */}
-//             {isMenuOpen && (
-//                 <div className="md:hidden bg-white shadow-lg">
-//                     <ul className="flex flex-col items-center py-4 space-y-2">
-//                         {navItems.map(({ link, path, external }) => (
-//                             <li key={link}>
-//                                 {external ? (
-//                                     <a href={path} target="_blank" rel="noopener noreferrer" className="text-base text-pink-500">
-//                                         {link}
-//                                     </a>
-//                                 ) : (
-//                                     <Link to={path} className="text-base text-pink-500">
-//                                         {link}
-//                                     </Link>
-//                                 )}
-//                             </li>
-//                         ))}
-//                     </ul>
-//                 </div>
-//             )}
-//         </header>
-//     );
-// };
-
-// export default LoginNavbar;
-
-
-
+import { FaMoon, FaSun } from "react-icons/fa6";
+import { MdOutlineShoppingCart } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginNavbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSticky, setIsSticky] = useState(false);
-    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
-    const [searchQuery, setSearchQuery] = useState('');
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+    const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [placeholderIndex, setPlaceholderIndex] = useState(0);
-    const { user } = useOutletContext() || {};
+    const [showCart, setShowCart] = useState(false);
+    const [state, setState] = useState({ cartData: [] });
+
     const navigate = useNavigate();
 
+    // Navigation items
     const navItems = [
-        { link: 'Home', path: '/' },
-        { link: 'About', path: '/about' },
-        { link: 'Shop', path: '/shop' },
-        { link: 'Our Services', path: '/services' },
-        { link: 'Sell Your Book', path: '/admin/dashboard' },
-        { link: 'Blog', path: '/blog' },
-        { link: 'Become a Seller', path: 'https://forms.gle/i9fmDB8hYVGx5Wyw6', external: true },
+        { link: "Home", path: "/" },
+        { link: "About", path: "/about" },
+        { link: "Shop", path: "/shop" },
+        { link: "Our Services", path: "/services" },
+        { link: "Sell Your Book", path: "/admin/dashboard" },
+        { link: "Blog", path: "/blog" },
+        { link: "Become a Seller", path: "https://forms.gle/i9fmDB8hYVGx5Wyw6", external: true },
     ];
 
-    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+    // Toggle menu function
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
 
+    // Effect of handling sticky behavior
     useEffect(() => {
         const handleScroll = () => {
             setIsSticky(window.scrollY > 100);
         };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Effect to handle theme change
     useEffect(() => {
         const element = document.documentElement;
-        if (theme === 'dark') {
-            element.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-            document.body.classList.add('dark');
+        if (theme === "dark") {
+            element.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+            document.body.classList.add("dark");
         } else {
-            element.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-            document.body.classList.remove('dark');
+            element.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+            document.body.classList.remove("dark");
         }
     }, [theme]);
 
+    // Placeholder texts for search input
     const placeholderTexts = [
-        'Search by Books',
-        'Search by Publishers',
-        'Search by Authors',
-        'Search by ISBN',
-        'Search by Genre',
-        'Search by Bestsellers',
-        'Search by New Arrivals',
-        'Search by Classics',
-        'Search by Recommendations',
-        'Search by Language',
-        'Search by Series',
-        'Search by Price Range',
-        'Search by Publication Year',
+        "Search by Books",
+        "Search by Publishers",
+        "Search by Authors",
+        "Search by ISBN",
+        "Search by Genre",
+        "Search by Bestsellers",
+        "Search by New Arrivals",
+        "Search by Classics",
+        "Search by Recommendations",
+        "Search by Language",
+        "Search by Series",
+        "Search by Price Range",
+        "Search by Publication Year"
     ];
 
+    // Handle search function
     const handleSearch = async () => {
         try {
             const response = await fetch(`http://localhost:5000/all-books?query=${searchQuery}`);
             if (response.ok) {
                 const data = await response.json();
                 setSearchResults(data);
+                console.log("Search Results:", data);
             } else {
-                console.error('Error fetching search results:', response.statusText);
+                console.error("Error fetching search results:", response.statusText);
             }
         } catch (error) {
-            console.error('Error fetching search results:', error);
+            console.error("Error fetching search results:", error);
         }
     };
 
-    const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+    // Toggle theme function
+    const toggleTheme = () => {
+        setTheme(theme === "dark" ? "light" : "dark");
+    };
 
+    // Function to update placeholder text with typing effect
     useEffect(() => {
         const interval = setInterval(() => {
             setPlaceholderIndex((prevIndex) =>
                 prevIndex === placeholderTexts.length - 1 ? 0 : prevIndex + 1
             );
-        }, 3000);
+        }, 3000); // Change placeholder every 3 seconds
 
         return () => clearInterval(interval);
     }, [placeholderTexts]);
 
-    const handleSignInClick = () => {
-        if (user) {
-            navigate('/userDashboard'); // Redirect to user dashboard if logged in
+    // Handle cart show function
+    const handleCartShow = () => {
+        if (state.cartData.length > 0) {
+            setShowCart(true);
         } else {
-            navigate('/login'); // Redirect to login page if not logged in
+            setShowCart(false);
         }
+    };
+
+    // Handle "Your Profile" button click
+    const handleProfileClick = () => {
+        navigate("/admin/dashboard");
     };
 
     return (
         <header className="w-full bg-transparent fixed top-0 left-0 right-0 transition-all ease-in duration-300">
-            <nav className={`py-4 lg:px-24 px-4 ${isSticky ? 'sticky top-0 left-0 right-0 bg-blue-300' : ''}`}>
+            <nav className={`py-4 lg:px-24 px-4 ${isSticky ? "sticky top-0 left-0 right-0 bg-blue-300" : ""}`}>
                 <div className="flex justify-between items-center">
                     {/* Logo and Search */}
                     <div className="flex items-center gap-2">
                         <Link to="/" className="flex items-center gap-2">
-                            <img
-                                src="https://www.shutterstock.com/shutterstock/photos/370209572/display_1500/stock-vector-bookstore-bookshop-book-shop-vector-logo-icon-symbol-emblem-sign-370209572.jpg"
-                                alt="BookShop Logo"
-                                className="w-16 h-16 rounded-full object-cover hover:scale-110 transition-transform duration-300"
+                            <img 
+                                src="https://www.shutterstock.com/shutterstock/photos/370209572/display_1500/stock-vector-bookstore-bookshop-book-shop-vector-logo-icon-symbol-emblem-sign-370209572.jpg" 
+                                alt="BookShop Logo" 
+                                className="w-16 h-16 rounded-full object-cover hover:scale-110 transition-transform duration-300" 
+                                style={{ borderRadius: "50%", overflow: "hidden", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
                             />
                         </Link>
                         <div className="flex items-center relative">
@@ -341,51 +138,45 @@ const LoginNavbar = () => {
                                 type="search"
                                 placeholder={placeholderTexts[placeholderIndex]}
                                 className="py-3 px-4 pr-10 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-700 text-pink-700 bg-pink-100"
+                                style={{ minWidth: "200px" }}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                onKeyUp={handleSearch}
                             />
                             <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-400 hover:text-blue-700 transition-colors duration-300" />
                         </div>
                     </div>
 
-                    {/* Sign In or User Profile */}
-                    <div className="space-x-4 flex items-center relative">
-                        {user ? (
-                            <div className="relative">
-                                <img
-                                    src={`http://localhost:5000${user.image || '/default-profile.png'}`}
-                                    alt="Profile"
-                                    className="w-8 h-8 rounded-full cursor-pointer"
-                                    onClick={() => navigate('/profile')}
-                                />
-                            </div>
-                        ) : (
-                            <button
-                                className="bg-blue-700 px-6 py-3 text-pink-500 font-medium rounded-full ml-1 hover:bg-blue-400 transition-all ease-in duration-200 flex items-center whitespace-nowrap"
-                                onClick={handleSignInClick}
-                            >
-                                <img
-                                    src="https://www.rokomari.com/static/200/images/svg/user-img.svg"
-                                    alt="User Profile"
-                                    className="w-6 h-6 mr-2"
-                                />
-                                Your Profile
-                            </button>
-                        )}
-                    </div>
+                    {/* "Your Profile" Button */}
+                    <button
+                        className="bg--700 px-6 py-3 text-pink-500 font-medium rounded-full ml-1 hover:bg-blue-400 transition-all ease-in duration-200 flex items-center whitespace-nowrap"
+                        onClick={handleProfileClick}
+                    >
+                        <img src="https://www.rokomari.com/static/200/images/svg/user-img.svg" alt="Your Profile" className="w-6 h-6 mr-2" />
+                        Your Profile
+                    </button>
 
                     {/* Theme Toggle and Desktop Navigation */}
                     <div className="flex items-center space-x-4 ml-4">
-                        <ul className="hidden md:flex space-x-6">
+                        {/* Desktop Navigation */}
+                        <ul className="hidden md:flex space-x-6 whitespace-nowrap">
                             {navItems.map(({ link, path, external }) => (
-                                <li key={link}>
+                                <li key={link} className="group flex-shrink-0">
                                     {external ? (
-                                        <a href={path} target="_blank" rel="noopener noreferrer" className="flex items-center text-base text-pink-500 hover:text-blue-700">
-                                            {link}
+                                        <a
+                                            href={path}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center text-base cursor-pointer uppercase text-pink-500 hover:text-blue-700 underline italic"
+                                        >
+                                            <img 
+                                                src="https://c8.alamy.com/comp/R1T9CB/shop-vector-icon-isolated-on-transparent-background-shop-transparency-logo-concept-R1T9CB.jpg"
+                                                alt="Become a Seller"
+                                                className="w-8 h-8 inline-block mr-2 rounded-full object-cover bg-zinc-800"
+                                            />
+                                            <span className="hidden md:inline-block">Become a Seller</span>
                                         </a>
                                     ) : (
-                                        <Link to={path} className="text-base text-pink-500 hover:text-blue-700">
+                                        <Link to={path} className="text-base cursor-pointer uppercase text-violet-600 hover:text--700 underline italic hover:text-pink-600 transition duration-200">
                                             {link}
                                         </Link>
                                     )}
@@ -394,38 +185,31 @@ const LoginNavbar = () => {
                         </ul>
 
                         {/* Theme Toggle */}
-                        <button onClick={toggleTheme} className="ml-2">
-                            {theme === "dark" ? <FaSun className="w-6 h-6" /> : <FaMoon className="w-6 h-6" />}
+                        <button onClick={toggleTheme} className="text-black focus:outline-none ml-2">
+                            {theme === "dark" ? (
+                                <FaSun className="w-6 h-6" />
+                            ) : (
+                                <FaMoon className="w-6 h-6" />
+                            )}
                         </button>
 
-                        {/* Mobile Menu Toggle */}
-                        <button onClick={toggleMenu} className="md:hidden text-blue-700">
-                            {isMenuOpen ? <FaXmark /> : <FaBarsStaggered />}
-                        </button>
+                        {/* Cart Icon */}
+                        <li className="relative">
+                            <a
+                                className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block"
+                                href="/cartDetails"
+                                onClick={handleCartShow}
+                            >
+                                <MdOutlineShoppingCart className="w-6 h-6" />
+                                {state.cartData.length > 0 && (
+                                    <span className="rounded-full absolute top-[-12px] left-[28px] text-[12px] px-1 text-white bg-orange-600 flex items-center justify-center">{state.cartData.length}</span>
+                                )}
+                            </a>
+                        </li>
                     </div>
                 </div>
             </nav>
-
-            {/* Mobile Menu */}
-            {isMenuOpen && (
-                <div className="md:hidden bg-white shadow-lg">
-                    <ul className="flex flex-col items-center py-4 space-y-2">
-                        {navItems.map(({ link, path, external }) => (
-                            <li key={link}>
-                                {external ? (
-                                    <a href={path} target="_blank" rel="noopener noreferrer" className="text-base text-pink-500">
-                                        {link}
-                                    </a>
-                                ) : (
-                                    <Link to={path} className="text-base text-pink-500">
-                                        {link}
-                                    </Link>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+            {showCart && <CartDetails />} {/* Display CartDetails when showCart is true */}
         </header>
     );
 };
