@@ -2,7 +2,7 @@ import About from "../pages/about/About";
 import ActivityLog from "../Dashboard/ActivityLog";
 import App from "../App";
 import Blog from "../pages/blog/Blog";
-import BrowsingHistory from "../pages/BrowsingHistory/history";
+import BrowsingHistory from "../pages/BrowsingHistory/History";
 import BuyCart from "../pages/BuyCart";
 import CheckOutPage from "../pages/CheckOutPage";
 import Dashboard from "../Dashboard/Dashboard";
