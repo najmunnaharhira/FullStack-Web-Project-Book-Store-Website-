@@ -504,7 +504,6 @@ app.post("/payment/fail/:tranId", async (req, res) => {
   }
 });
 
-
 app.post('/checkout', async (req, res) => {
   const { name, email, phone, shippingAddress, paymentMethod, totalPayment, bookIds } = req.body;
 
@@ -570,6 +569,7 @@ app.post("/wishlist", async (req, res) => {
 //       res.json(results);
 //   });
 // });
+
 app.get('/tasks/:userId', (req, res) => {
   const userId = req.params.userId;
 
@@ -607,3 +607,5 @@ async function run() {
 }
 
 run();
+
+

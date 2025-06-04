@@ -27,6 +27,17 @@ CREATE TABLE reviews (
 );
 
 
+CREATE TABLE activity_log (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    activity_type VARCHAR(50),
+    description TEXT
+);
+
+
+
+
 INSERT INTO books (bookTitle, authorName, imageURL, category, bookDescription, bookPDFURL) VALUES
 ('Heartstopper: Volume Four', 'Alice Oseman', 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1640745736i/56060300.jpg', 'Self-help', 'Boy meets boy. Boys become friends. Boys fall in love. The bestselling LGBTQ+ graphic novel about life, love, and everything that happens in between: this is the fourth volume of HEARTSTOPPER, for fans of The Art of Being Normal, Holly Bourne and Love, Simon.\\n\\nCharlie didn''t think Nick could ever like him back, but now they''re officially boyfriends. Charlie''s beginning to feel ready to say those three little words: I love you.', 'https://www.goodreads.com/book/show/56060300-heartstopper'),
 ('Lessons in Chemistry', 'Bonnie Garmus', 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1634748496i/58065033.jpg', 'History', 'Chemist Elizabeth Zott is not your average woman. In fact, Elizabeth Zott would be the first to point out that there is no such thing as an average woman. But it’s the early 1960s and her all-male team at Hastings Research Institute takes a very unscientific view of equality. Except for one: Calvin Evans; the lonely, brilliant, Nobel–prize nominated grudge-holder who falls in love with—of all things—her mind. True chemistry results.', 'https://www.goodreads.com/book/show/58065033-lessons-in-chemistry'),

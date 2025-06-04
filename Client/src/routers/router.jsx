@@ -4,6 +4,7 @@ import Blog from "../pages/blog/Blog";
 import BrowsingHistory from "../pages/BrowsingHistory/history";
 import BuyCart from "../pages/BuyCart";
 import CheckOutPage from "../pages/CheckOutPage";
+import ActivityLog from "../Dashboard/ActivityLog";
 import Dashboard from "../Dashboard/Dashboard";
 import EditBooks from "../Dashboard/EditBooks";
 import ErrorPage from "../pages/shared/ErrorPage";
@@ -86,6 +87,7 @@ element: <Reviews />
     children: [
       { path: "/admin/dashboard", element: <PrivateRoute><Dashboard /></PrivateRoute> },
       { path: "/admin/dashboard/upload", element: <UploadBook /> },
+      { path: "/admin/dashboard/activityLog", element: <ActivityLog/> },
       { path: "/admin/dashboard/manage", element: <ManageBooks /> },
       {
         path: "/admin/dashboard/edit-books/:id",

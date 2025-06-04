@@ -175,8 +175,8 @@ function SingleBook() {
     try {
       await axios.post(
         "http://localhost:5000/cartItems",
-        { user_id: user.id, book_id: id },
-        { withCredentials: true }
+        // { user_id: user.id, book_id: id },
+        // { withCredentials: true }
       );
       setSuccessMessage("Book added to cart successfully!"); // Set success message for Add to Cart
       setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
@@ -195,8 +195,8 @@ function SingleBook() {
     try {
       await axios.post(
         "http://localhost:5000/wishlist",
-        { user_id: user.id, book_id: id },
-        { withCredentials: true }
+        // { user_id: user.id, book_id: id },
+        // { withCredentials: true }
       );
       setSuccessMessage("Added to Wishlist successfully!"); // Set success message for Add to Wishlist
       setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
