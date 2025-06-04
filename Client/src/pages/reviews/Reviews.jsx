@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
 
 const BookReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -31,7 +31,7 @@ const BookReviews = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch('http://localhost:5000/reviews'); // Replace with your backend endpoint
+        const response = await fetch(`${API_BASE_URL}/reviews`); // Replace with your backend endpoint
         if (response.ok) {
           const data = await response.json();
           setReviews(data);
@@ -56,7 +56,7 @@ const BookReviews = () => {
         formData.append('image', newReview.image);
       }
 
-      const response = await fetch('http://localhost:5000/reviews', {
+      const response = await fetch(`${API_BASE_URL}/reviews`, {
         method: 'POST',
         body: formData,
       });

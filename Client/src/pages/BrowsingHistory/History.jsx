@@ -7,7 +7,7 @@ const BrowsingHistory = () => {
   useEffect(() => {
     const fetchBrowsingHistory = async () => {
       try {
-        const response = await fetch('http://localhost:5000/browsing-history'); // Replace with your backend endpoint
+        const response = await fetch(`${API_BASE_URL}/browsing-history`); // Replace with your backend endpoint
         if (response.ok) {
           const data = await response.json();
           setBrowsingHistory(data);

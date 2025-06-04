@@ -31,7 +31,7 @@ const Signup = () => {
 
         try {
             const response = await Axios.post(
-                "http://localhost:5000/register",
+                (`${API_BASE_URL}//register`),
                 formData,
                 {
                     headers: {

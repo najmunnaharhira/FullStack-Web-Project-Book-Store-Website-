@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Button, Checkbox, Label, Select, TextInput, Textarea } from 'flowbite-react';
-import { useLoaderData, useParams } from 'react-router-dom';
+import React, { useState } from "react";
+import { Button, Checkbox, Label, Select, TextInput, Textarea } from "flowbite-react";
+import { useLoaderData, useParams } from "react-router-dom";
 
 const EditBooks = () => {
   const { id } = useParams();
@@ -61,7 +61,7 @@ const EditBooks = () => {
     // console.log(bookObj)
 
     // update the book object
-    fetch(`http://localhost:5000/book/${id}`, {
+    fetch(`(`${API_BASE_URL}/book/${id}`, {
       method: "PATCH",
 
       headers: {
@@ -221,4 +221,4 @@ const EditBooks = () => {
     )
   }
 
-export default EditBooks
+export default EditBooks;

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import BookCards from '../shared/BookCards';
+import BookCards from "../shared/BookCards";
+import React, { useEffect, useState } from "react";
 
 const BestSeller = () => {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/all-books").then(res => res.json()).then(data => setBooks(data.slice(0, 8)))
+        fetch(`${API_BASE_URL}/all-books`).then(res => res.json()).then(data => setBooks(data.slice(0, 8)))
     }, [])
 
     return (

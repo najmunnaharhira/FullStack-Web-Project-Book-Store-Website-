@@ -1,3 +1,6 @@
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 // import React, { useEffect, useState } from "react";
 // import { Link } from "react-router-dom";
 
@@ -143,8 +146,6 @@
 // export default Dashboard;
 
 
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const [browsingHistory, setBrowsingHistory] = useState([]);
@@ -157,31 +158,31 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const historyResponse = await fetch("http://localhost:5000/BrowsingHistory");
+      const historyResponse = await fetch(`${API_BASE_URL}/BrowsingHistory`);
       const historyData = await historyResponse.json();
       setBrowsingHistory(historyData);
 
-      const recommendationsResponse = await fetch("http://localhost:5000/Recommendations");
+      const recommendationsResponse = await fetch((`${API_BASE_URL}/Recommendations`);
       const recommendationsData = await recommendationsResponse.json();
       setRecommendations(recommendationsData);
 
-      const wishlistResponse = await fetch("http://localhost:5000/Wishlist");
+      const wishlistResponse = await fetch((`${API_BASE_URL}/Wishlist`);
       const wishlistData = await wishlistResponse.json();
       setWishlist(wishlistData);
 
-      const cartResponse = await fetch("http://localhost:5000/CartItems");
+      const cartResponse = await fetch(`${API_BASE_URL}/CartItems`);
       const cartData = await cartResponse.json();
       setCartItems(cartData);
 
-      const reviewsResponse = await fetch("http://localhost:5000/api/reviews");
+      const reviewsResponse = await fetch(`${API_BASE_URL}/api/reviews`);
       const reviewsData = await reviewsResponse.json();
       setReviews(reviewsData);
 
-      const tasksResponse = await fetch("http://localhost:5000/api/daily-tasks");
+      const tasksResponse = await fetch(`${API_BASE_URL}/api/daily-tasks`);
       const tasksData = await tasksResponse.json();
       setDailyTasks(tasksData);
 
-      const activityLogResponse = await fetch("http://localhost:5000/api/activity-log"); // Fetch activity log
+      const activityLogResponse = await fetch(`${API_BASE_URL}/api/activity-log`); // Fetch activity log
       const activityLogData = await activityLogResponse.json();
       setActivityLog(activityLogData);
     };

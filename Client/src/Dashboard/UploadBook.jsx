@@ -67,7 +67,7 @@ const UploadBook = () => {
       bookPDFURL,
     };
     // console.log(dataObj)
-    fetch("http://localhost:5000/upload-book", {
+    fetch(`${API_BASE_URL}/upload-book`, {
       method: "POST",
 
       headers: {

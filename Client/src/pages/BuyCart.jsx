@@ -1,7 +1,7 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../lib/url";
 
 const BuyCart = () => {
   const [cartBooks, setCartBooks] = useState([]);
@@ -14,7 +14,7 @@ const BuyCart = () => {
   useEffect(() => {
     const fetchCartBooks = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/cart", {
+        const response = await axios.get(`${API_BASE_URL}/cart`, {
           withCredentials: true,
         });
         setCartBooks(response.data);
@@ -52,7 +52,7 @@ const BuyCart = () => {
 
     try {
       const bookIds = selectedBooks.map((book) => book.id);
-      await axios.delete("http://localhost:5000/delete_buy_cart", {
+      await axios.delete(`${API_BASE_URL}delete_buy_cart`, {
         data: { bookIds },
         withCredentials: true,
       });

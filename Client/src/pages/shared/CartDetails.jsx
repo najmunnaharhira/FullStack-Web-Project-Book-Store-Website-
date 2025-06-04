@@ -164,7 +164,7 @@ function CartDetails() {
   const fetchCartData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/cartItems");
+      const response = await axios.get(`${API_BASE_URL}/cartItems`);
       setCart(response.data); // Sets `cartData` from the response
     } catch (err) {
       setError(err);

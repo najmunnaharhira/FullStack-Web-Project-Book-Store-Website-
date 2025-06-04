@@ -174,7 +174,7 @@ function SingleBook() {
     }
     try {
       await axios.post(
-        "http://localhost:5000/cartItems",
+        (`${API_BASE_URL}/cartItems`),
         // { user_id: user.id, book_id: id },
         // { withCredentials: true }
       );
@@ -194,7 +194,7 @@ function SingleBook() {
     }
     try {
       await axios.post(
-        "http://localhost:5000/wishlist",
+        (`${API_BASE_URL}/wishlist`),
         // { user_id: user.id, book_id: id },
         // { withCredentials: true }
       );

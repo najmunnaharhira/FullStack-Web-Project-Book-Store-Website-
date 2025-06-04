@@ -5,7 +5,7 @@ const UpComingBook= () => {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/all-books").then(res => res.json()).then(data => setBooks(data.slice(50,58)))
+        fetch(`${API_BASE_URL}//all-books`).then(res => res.json()).then(data => setBooks(data.slice(50,58)))
     }, [])
 
     return (

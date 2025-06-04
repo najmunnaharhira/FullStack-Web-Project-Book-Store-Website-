@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       {
         path: "/book/:id",
         element: <SingleBook />,
-        loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
+        loader: ({ params }) => fetch(`${API_BASE_URL}/book/${params.id}`)
       },
       { path: "/about", element: <About /> },
       { path: "/loginNavbar", element: <LoginNavbar /> },
@@ -91,7 +91,7 @@ element: <Reviews />
       {
         path: "/admin/dashboard/edit-books/:id",
         element: <EditBooks />,
-        loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
+        loader: ({ params }) => fetch(`${API_BASE_URL}/book/${params.id}`)
       }
     ]
   },

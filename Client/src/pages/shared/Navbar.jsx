@@ -345,7 +345,7 @@ const Navbar = () => {
     // Handle search function
     const handleSearch = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/all-books?query=${searchQuery}`);
+            const response = await fetch(`${API_BASE_URL}//all-books?query=${searchQuery}`);
             if (response.ok) {
                 const data = await response.json();
                 setSearchResults(data);

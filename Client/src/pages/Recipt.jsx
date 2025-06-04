@@ -20,7 +20,7 @@ const Reciept = ({ recieptData }) => {
         const bookIds = selectedBooks.map((book) => book.id);
         const responses = await Promise.all(
           bookIds.map((id) =>
-            axios.get(`http://localhost:5000/book/${id}`)
+            axios.get(`${API_BASE_URL}/book/${id}`)
           )
         );
         const booksWithTitles = responses.map((response) => response.data);

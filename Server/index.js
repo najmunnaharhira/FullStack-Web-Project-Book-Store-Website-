@@ -1,8 +1,7 @@
 const express = require("express");
 const app = express();
 // const SSLCommerzPayment = require('sslcommerz-lts')
-const sslcz = require('sslcommerz');
-
+const sslcz = require("sslcommerz");
 
 const cors = require("cors");
 const mysql = require("mysql2/promise");
@@ -23,8 +22,7 @@ const dbConfig = {
 
 const store_id = process.env.STORE_ID;
 const store_passwd = process.env.STORE_PASS;
-const is_live = false //true for live, false for sandbox
-
+const is_live = false; //true for live, false for sandbox
 
 // Initialize MySQL connection pool
 const pool = mysql.createPool(dbConfig);
@@ -69,7 +67,9 @@ app.post("/register", async (req, res) => {
   const { email, password } = req.body;
   try {
     // Check if the user already exists
-    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
+    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
     if (rows.length > 0) {
       return res.status(400).send({ message: "User already exists" });
     }
@@ -78,7 +78,10 @@ app.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert the new user into the database
-    await pool.query("INSERT INTO users (email, password) VALUES (?, ?)", [email, hashedPassword]);
+    await pool.query("INSERT INTO users (email, password) VALUES (?, ?)", [
+      email,
+      hashedPassword,
+    ]);
 
     res.send({ message: "User registered successfully" });
   } catch (err) {
@@ -91,7 +94,9 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     // Find the user in the database
-    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
+    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
     if (rows.length === 0) {
       return res.status(400).send({ message: "Invalid credentials" });
     }
@@ -112,7 +117,14 @@ app.post("/login", async (req, res) => {
 
 // Insert a book into the database
 app.post("/upload-book", async (req, res) => {
-  const { bookTitle, authorName, imageURL, category, bookDescription, bookPDFURL } = req.body;
+  const {
+    bookTitle,
+    authorName,
+    imageURL,
+    category,
+    bookDescription,
+    bookPDFURL,
+  } = req.body;
   try {
     const [result] = await pool.query(
       "INSERT INTO books (bookTitle, authorName, imageURL, category, bookDescription, bookPDFURL) VALUES (?, ?, ?, ?, ?, ?)",
@@ -144,7 +156,6 @@ app.post("/upload-book", async (req, res) => {
 //   }
 // });
 
-
 // Update a book
 app.patch("/book/:id", async (req, res) => {
   const id = req.params.id;
@@ -152,16 +163,16 @@ app.patch("/book/:id", async (req, res) => {
 
   // Generate the field assignments for the SQL query (e.g. 'field1 = ?, field2 = ?')
   const fields = Object.keys(updateBookData)
-    .map((field) => `${field} = ?`)  // Correct template literal
+    .map((field) => `${field} = ?`) // Correct template literal
     .join(", ");
-  
-  const values = Object.values(updateBookData);  // Values from the request body
+
+  const values = Object.values(updateBookData); // Values from the request body
 
   try {
     // The SQL query
     const [result] = await pool.query(
       `UPDATE books SET ${fields} WHERE id = ?`, // Wrap query with backticks for template literal
-      [...values, id]  // Add the book ID to the query values
+      [...values, id] // Add the book ID to the query values
     );
 
     // Send the result back as a response
@@ -171,7 +182,6 @@ app.patch("/book/:id", async (req, res) => {
     res.status(500).send(err.message);
   }
 });
-
 
 // Delete a book
 app.delete("/book/:id", async (req, res) => {
@@ -292,15 +302,14 @@ app.post("/cartItems", async (req, res) => {
 //   console.log(product);
 //   //console.log(req.body);
 
-
 const { ObjectId } = require("mongodb"); // Make sure to import ObjectId
 
 app.post("/checkout", async (req, res) => {
   // Generate the transaction ID and convert to string
-  const tran_id = new ObjectId().toString();  // Correct way to generate ObjectId and convert to string
+  const tran_id = new ObjectId().toString(); // Correct way to generate ObjectId and convert to string
 
   const product = await productCollection.findOne({
-    _id: new ObjectId(req.body.productId),  // Ensure correct usage of ObjectId for query
+    _id: new ObjectId(req.body.productId), // Ensure correct usage of ObjectId for query
   });
 
   const checkout = req.body;
@@ -320,49 +329,48 @@ app.post("/checkout", async (req, res) => {
   });
 });
 const product = {
-  price: 100,  // Example price value, replace it with the actual product price
+  price: 100, // Example price value, replace it with the actual product price
 };
 
 const order = {
-  currency: 'BDT',
-  name: 'John Doe',
-  address: 'Dhaka, Bangladesh',
+  currency: "BDT",
+  name: "John Doe",
+  address: "Dhaka, Bangladesh",
 };
 
-const tran_id = '12345';  // Example transaction ID
-  const data = {
-    total_amount: product?.price,
-    currency: order.currency,
-    tran_id: tran_id , // use unique tran_id for each api call
-    success_url: 'http://localhost:5000/payment/success/${tran_Id}',
-    fail_url: 'http://localhost:3030/fail',
-    cancel_url: 'http://localhost:3030/cancel',
-    ipn_url: 'http://localhost:3030/ipn',
-    shipping_method: 'Courier',
-    product_name: 'Computer.',
-    product_category: 'Electronic',
-    product_profile: 'general',
-    cus_name: order.name,
-    cus_email: 'customer@example.com',
-    cus_add1: order.address,
-    cus_add2: 'Dhaka',
-    cus_city: 'Dhaka',
-    cus_state: 'Dhaka',
-    cus_postcode: '1000',
-    cus_country: 'Bangladesh',
-    cus_phone: '01711111111',
-    cus_fax: '01711111111',
-    ship_name: 'Customer Name',
-    ship_add1: 'Dhaka',
-    ship_add2: 'Dhaka',
-    ship_city: 'Dhaka',
-    ship_state: 'Dhaka',
-    ship_postcode: 1000,
-    ship_country: 'Bangladesh',
+const tran_id = "12345"; // Example transaction ID
+const data = {
+  total_amount: product?.price,
+  currency: order.currency,
+  tran_id: tran_id, // use unique tran_id for each API call
+  success_url: `${API_BASE_URL}/payment/success/${tran_id}`,
+  fail_url: `${API_BASE_URL}/fail`,
+  cancel_url: `${API_BASE_URL}/cancel`,
+  ipn_url: `${API_BASE_URL}/ipn`,
+  shipping_method: "Courier",
+  product_name: "Computer.",
+  product_category: "Electronic",
+  product_profile: "general",
+  cus_name: order.name,
+  cus_email: "customer@example.com",
+  cus_add1: order.address,
+  cus_add2: "Dhaka",
+  cus_city: "Dhaka",
+  cus_state: "Dhaka",
+  cus_postcode: "1000",
+  cus_country: "Bangladesh",
+  cus_phone: "01711111111",
+  cus_fax: "01711111111",
+  ship_name: "Customer Name",
+  ship_add1: "Dhaka",
+  ship_add2: "Dhaka",
+  ship_city: "Dhaka",
+  ship_state: "Dhaka",
+  ship_postcode: "1000",
+  ship_country: "Bangladesh",
 };
-  console.log(data);
 
-
+console.log(data);
 
 // sslcz.createTransaction(data)
 //     .then(apiResponse => {
@@ -408,48 +416,52 @@ const tran_id = '12345';  // Example transaction ID
 // POST request for successful payment
 app.post("/payment/success/:tranId", async (req, res) => {
   console.log(req.params.tranId);
-  
+
   // Update the order to set paidStatus to true
-  const result = await OrderCollection.updateOne({ transactionId: req.params.tranId }, {
-    $set: {
-      paidStatus: true,
-    },
-  });
+  const result = await OrderCollection.updateOne(
+    { transactionId: req.params.tranId },
+    {
+      $set: {
+        paidStatus: true,
+      },
+    }
+  );
 
   console.log(result);
 
   if (result.modifiedCount > 0) {
-    res.redirect(`http://localhost:5173/payment/success/${req.params.tranId}`);
+    res.redirect(`${API_BASE_URL}/payment/success/${req.params.tranId}`);
   }
 });
 
 // POST request for failed payment
 app.post("/payment/fail/:tranId", async (req, res) => {
-  const result = await OrderCollection.deleteOne({ transactionId: req.params.tranId });
-  
+  const result = await OrderCollection.deleteOne({
+    transactionId: req.params.tranId,
+  });
+
   if (result.deletedCount > 0) {
-    res.redirect(`http://localhost:5173/payment/fail/${req.params.tranId}`);
+    res.redirect(`${API_BASE_URL}/payment/fail/${req.params.tranId}`);
   }
 });
 
-
 app.post("/checkout", async (req, res) => {
   const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
-  const data = req.body;  // Assuming 'data' is the payment data from the request
+  const data = req.body; // Assuming 'data' is the payment data from the request
 
   try {
     // Initialize the payment and wait for the response
     const apiResponse = await sslcz.init(data);
-    
+
     // Redirect the user to the payment gateway
     let GatewayPageURL = apiResponse.GatewayPageURL;
     res.send({ url: GatewayPageURL });
-    
+
     // Prepare the final order data
     const finalOrder = {
-      product: req.body.product,  // Ensure you're passing the correct product data
-      paidStatus: false,  // Payment status
-      transactionId: new ObjectId().toString(),  // Transaction ID as ObjectId (if needed)
+      product: req.body.product, // Ensure you're passing the correct product data
+      paidStatus: false, // Payment status
+      transactionId: new ObjectId().toString(), // Transaction ID as ObjectId (if needed)
     };
 
     // MySQL query to insert the final order into the database
@@ -457,7 +469,11 @@ app.post("/checkout", async (req, res) => {
       INSERT INTO orders (product, paidStatus, transactionId)
       VALUES (?, ?, ?)
     `;
-    const values = [finalOrder.product, finalOrder.paidStatus, finalOrder.transactionId];
+    const values = [
+      finalOrder.product,
+      finalOrder.paidStatus,
+      finalOrder.transactionId,
+    ];
 
     // Execute the query using the MySQL connection pool
     pool.execute(query, values, (err, results) => {
@@ -466,46 +482,60 @@ app.post("/checkout", async (req, res) => {
         return res.status(500).send({ message: "Error processing the order" });
       }
 
-      console.log('Order inserted successfully with ID:', results.insertId);
-      console.log('Redirecting to: ', GatewayPageURL);
+      console.log("Order inserted successfully with ID:", results.insertId);
+      console.log("Redirecting to: ", GatewayPageURL);
     });
-
   } catch (error) {
     // Handle any errors in the payment process or database operation
     console.error("Error in payment initialization or order insertion:", error);
-    res.status(500).send({ message: "An error occurred while processing the payment" });
+    res
+      .status(500)
+      .send({ message: "An error occurred while processing the payment" });
   }
 });
 
 // POST request for successful payment
 app.post("/payment/success/:tranId", async (req, res) => {
   console.log(req.params.tranId);
-  
+
   // Update the order to set paidStatus to true
-  const result = await OrderCollection.updateOne({ transactionId: req.params.tranId }, {
-    $set: {
-      paidStatus: true,
-    },
-  });
+  const result = await OrderCollection.updateOne(
+    { transactionId: req.params.tranId },
+    {
+      $set: {
+        paidStatus: true,
+      },
+    }
+  );
 
   console.log(result);
 
   if (result.modifiedCount > 0) {
-    res.redirect(`http://localhost:5173/payment/success/${req.params.tranId}`);
+    res.redirect(`${API_BASE_URL}/payment/success/${req.params.tranId}`);
   }
 });
 
 // POST request for failed payment
 app.post("/payment/fail/:tranId", async (req, res) => {
-  const result = await OrderCollection.deleteOne({ transactionId: req.params.tranId });
-  
+  const result = await OrderCollection.deleteOne({
+    transactionId: req.params.tranId,
+  });
+
   if (result.deletedCount > 0) {
-    res.redirect(`http://localhost:5173/payment/fail/${req.params.tranId}`);
+    res.redirect(`${API_BASE_URL}/payment/fail/${req.params.tranId}`);
   }
 });
 
-app.post('/checkout', async (req, res) => {
-  const { name, email, phone, shippingAddress, paymentMethod, totalPayment, bookIds } = req.body;
+app.post("/checkout", async (req, res) => {
+  const {
+    name,
+    email,
+    phone,
+    shippingAddress,
+    paymentMethod,
+    totalPayment,
+    bookIds,
+  } = req.body;
 
   try {
     const connection = await pool.getConnection();
@@ -513,36 +543,52 @@ app.post('/checkout', async (req, res) => {
     try {
       await connection.beginTransaction();
 
-      const [user] = await connection.query('SELECT id FROM users WHERE email = ?', [email]);
+      const [user] = await connection.query(
+        "SELECT id FROM users WHERE email = ?",
+        [email]
+      );
       if (user.length === 0) {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(404).json({ message: "User not found" });
       }
       const userId = user[0].id;
 
-      await connection.query('INSERT INTO orders (user_id, total_payment, payment_method) VALUES (?, ?, ?)', [userId, totalPayment, paymentMethod]);
-      const [orderResult] = await connection.query('SELECT LAST_INSERT_ID() AS orderId');
+      await connection.query(
+        "INSERT INTO orders (user_id, total_payment, payment_method) VALUES (?, ?, ?)",
+        [userId, totalPayment, paymentMethod]
+      );
+      const [orderResult] = await connection.query(
+        "SELECT LAST_INSERT_ID() AS orderId"
+      );
       const orderId = orderResult[0].orderId;
 
-      const bookIdArray = bookIds.split(',').map(id => parseInt(id));
+      const bookIdArray = bookIds.split(",").map((id) => parseInt(id));
       for (const bookId of bookIdArray) {
-        const [book] = await connection.query('SELECT price FROM books WHERE id = ?', [bookId]);
+        const [book] = await connection.query(
+          "SELECT price FROM books WHERE id = ?",
+          [bookId]
+        );
         if (book.length > 0) {
-          await connection.query('INSERT INTO order_details (order_id, book_id, quantity, price) VALUES (?, ?, ?, ?)', [orderId, bookId, 1, book[0].price]);
+          await connection.query(
+            "INSERT INTO order_details (order_id, book_id, quantity, price) VALUES (?, ?, ?, ?)",
+            [orderId, bookId, 1, book[0].price]
+          );
         }
       }
 
       await connection.commit();
-      res.status(200).json({ message: 'Checkout successful' });
+      res.status(200).json({ message: "Checkout successful" });
     } catch (err) {
       await connection.rollback();
-      console.error('Error during checkout:', err);
-      res.status(500).json({ message: 'Checkout failed. Please try again.' });
+      console.error("Error during checkout:", err);
+      res.status(500).json({ message: "Checkout failed. Please try again." });
     } finally {
       connection.release();
     }
   } catch (err) {
-    console.error('Database connection error:', err);
-    res.status(500).json({ message: 'Database connection failed. Please try again.' });
+    console.error("Database connection error:", err);
+    res
+      .status(500)
+      .json({ message: "Database connection failed. Please try again." });
   }
 });
 
@@ -570,7 +616,7 @@ app.post("/wishlist", async (req, res) => {
 //   });
 // });
 
-app.get('/tasks/:userId', (req, res) => {
+app.get("/tasks/:userId", (req, res) => {
   const userId = req.params.userId;
 
   // Add quotes around the SQL query string
@@ -578,13 +624,14 @@ app.get('/tasks/:userId', (req, res) => {
 
   db.query(sql, [userId], (err, results) => {
     if (err) {
-      console.error(err);  // Log the error for debugging purposes
-      return res.status(500).json({ message: 'An error occurred while fetching tasks' });
+      console.error(err); // Log the error for debugging purposes
+      return res
+        .status(500)
+        .json({ message: "An error occurred while fetching tasks" });
     }
-    res.json(results);  // Send the results back as JSON
+    res.json(results); // Send the results back as JSON
   });
 });
-
 
 async function run() {
   try {
@@ -598,14 +645,11 @@ async function run() {
     // });
 
     app.listen(port, () => {
-      console.log(`Server running on port ${port}`);  // Use backticks for template literals
+      console.log(`Server running on port ${port}`); // Use backticks for template literals
     });
-    
   } catch (err) {
     console.error("Unable to connect to MySQL:", err.message);
   }
 }
 
 run();
-
-

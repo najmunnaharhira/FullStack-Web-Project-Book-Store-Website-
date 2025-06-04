@@ -23,7 +23,7 @@ const CheckOutPage = () => {
     try {
       const bookIds = selectedBooks.map((book) => book.id);
       await axios.post(
-        "http://localhost:5000/checkout",
+        (`${API_BASE_URL}//checkout`),
         {
           name,
           email,

@@ -9,7 +9,7 @@ const ProtectedRoute = ({ path }) => {
   const location = useLocation();
 
   useEffect(() => {
-    Axios.get("http://localhost:5000/protected", { withCredentials: true })
+    Axios.get(`${API_BASE_URL}/protected`, { withCredentials: true })
       .then((response) => {
         setUser(response.data);
         setIsAuthenticated(true);
