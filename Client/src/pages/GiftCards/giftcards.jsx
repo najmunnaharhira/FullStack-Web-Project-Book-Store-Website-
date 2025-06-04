@@ -1,4 +1,4 @@
-import AnniversaryImage from "../../assets/GiftCards/Anniversary.jpg";
+import AnniversaryImage from "../../assets/GiftCards/anniversary.jpg";
 import BirthdayImage from "../../assets/GiftCards/Birthday.jpg";
 import BoishakhiImage from "../../assets/GiftCards/Boishakhi.png";
 import CongratulationsImage from "../../assets/GiftCards/Congratulations.png";
@@ -8,12 +8,12 @@ import GraduationImage from "../../assets/GiftCards/Graduation.jpg";
 import HolidayImage from "../../assets/GiftCards/Holiday.jpeg";
 import LibraryImage from "../../assets/GiftCards/Library.jpg";
 import LoveImage from "../../assets/GiftCards/Love.jpeg";
-import React, { useState } from "react";
 import SalamyImage from "../../assets/GiftCards/Salamy.jpeg";
 import SpecialImage from "../../assets/GiftCards/Special.png";
 import ThankYouImage from "../../assets/GiftCards/ThankYou.png";
 import ValentineImage from "../../assets/GiftCards/Valentine.png";
 import WeddingImage from "../../assets/GiftCards/Wedding.jpg";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Import all gift card images
