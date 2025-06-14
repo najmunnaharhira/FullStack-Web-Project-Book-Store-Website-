@@ -59,8 +59,6 @@ npm start
 Here are some snapshots of the application:
 
 ![Screenshot (417)](https://github.com/user-attachments/assets/6bef57f8-4338-4549-8fbb-68583cbf815b)
-![Screenshot (411)](https://github.com/user-attachments/assets/4b1b69d3-266b-4b0d-84e1-a55b80eea54e)
-![Screenshot (417)](https://github.com/user-attachments/assets/6bef57f8-4338-4549-8fbb-68583cbf815b)
 ![Screenshot (415)](https://github.com/user-attachments/assets/fd38c9e4-a3d9-47a6-9b7e-d9747352fa6d)
 ![Screenshot (414)](https://github.com/user-attachments/assets/ff05996d-9caf-477a-beff-15bc058a561b)
 ![Screenshot (413)](https://github.com/user-attachments/assets/77a1c40b-a342-422d-accd-3a1500cbfa1b)
@@ -190,7 +188,7 @@ Here are some snapshots of the application:
 ![IMG-20250614-WA0014](https://github.com/user-attachments/assets/8472e565-3fd0-4ac3-a117-078c07cf236c)
 ![IMG-20250614-WA0028](https://github.com/user-attachments/assets/a8552272-4aed-43e3-bce3-a83806e8cace)
 ![IMG-20250614-WA0485](https://github.com/user-attachments/assets/7cdaf88c-5187-4cc3-837e-dde8c6864d47)
-
+![Screenshot (411)](https://github.com/user-attachments/assets/4b1b69d3-266b-4b0d-84e1-a55b80eea54e)
 ![IMG-20250614-WA0027](https://github.com/user-attachments/assets/fe60bfe8-c294-48ea-8869-62f2aa0feeb9)
 ![IMG-20250614-WA0025](https://github.com/user-attachments/assets/1ef9f6b1-02fe-4272-bb02-0157f560430d)
 ![IMG-20250614-WA0026](https://github.com/user-attachments/assets/9954fb0f-7491-454d-bd1f-043801f74de1)
