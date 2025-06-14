@@ -109,6 +109,21 @@ Here are some snapshots of the application:
 ![Screenshot 2024-06-15 163636](https://github.com/user-attachments/assets/c0adbefb-70f3-419f-ba42-07d85ed450ed)
 ![Screenshot (362)](https://github.com/user-attachments/assets/c23cd9ee-97af-48c6-bb02-bfac4595ee17)
 
+![IMG-20250614-WA0027](https://github.com/user-attachments/assets/fe60bfe8-c294-48ea-8869-62f2aa0feeb9)
+![IMG-20250614-WA0025](https://github.com/user-attachments/assets/1ef9f6b1-02fe-4272-bb02-0157f560430d)
+![IMG-20250614-WA0026](https://github.com/user-attachments/assets/9954fb0f-7491-454d-bd1f-043801f74de1)
+![IMG-20250614-WA0020](https://github.com/user-attachments/assets/73f425ba-1b31-41ac-b81d-1df3cc402815)
+![IMG-20250614-WA0022](https://github.com/user-attachments/assets/183e5f87-0772-4119-bfcb-44fa3990b1ae)
+![IMG-20250614-WA0023](https://github.com/user-attachments/assets/93f9213d-9313-467e-86d0-7b35f7f3138c)
+![IMG-20250614-WA0815](https://github.com/user-attachments/assets/26acd166-ac08-4b97-b4a1-317acf51394f)
+![IMG-20250614-WA0016](https://github.com/user-attachments/assets/5c5bd91f-29dc-4337-bbf3-809f7660ef01)
+![IMG-20250614-WA0015](https://github.com/user-attachments/assets/0c1e1f42-b178-42b3-a437-01836d36c4fa)
+![IMG-20250614-WA0014](https://github.com/user-attachments/assets/d4945089-d3e8-428c-b939-993dadf8d4f6)
+![IMG-20250614-WA0013](https://github.com/user-attachments/assets/ca9f2ae3-00c6-46f0-8509-8099665f7a89)
+![IMG-20250614-WA0024](https://github.com/user-attachments/assets/de1192f1-13db-4471-802c-ee1169c9d0be)
+![IMG-20250614-WA0019](https://github.com/user-attachments/assets/6925c606-6518-48a8-8cfe-15bd55d64ae5)
+![IMG-20250614-WA0018](https://github.com/user-attachments/assets/ae5befd5-4a79-4695-b370-7221ebfdc4ca)
+![IMG-20250614-WA0017](https://github.com/user-attachments/assets/43cfe3b4-82d5-4136-b5a2-7b19ed058262)
 
 
 ## 📝 Contributing
