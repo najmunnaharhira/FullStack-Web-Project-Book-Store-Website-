@@ -1,7 +1,6 @@
 import React from "react";
 import favBook from "../../assets/favoritebook.jpg";
 import { Link } from "react-router-dom";
-import { API_BASE_URL } from "../lib/url";
 
 const FavoriteBook = () => {
   return (

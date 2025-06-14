@@ -3,50 +3,69 @@ import React, { useEffect, useState } from "react";
 import { API_BASE_URL } from "../lib/url";
 
 const BooksByCategory = ({ category, headline }) => {
+    // Add states for loading and error handling
     const [books, setBooks] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
+        // Skip fetching if the category is not set
+        if (!category) {
+            setIsLoading(false);
+            setBooks([]);
+            return;
+        }
+        
         const fetchBooks = async () => {
+            setIsLoading(true);
+            setError(null);
+            
             try {
-                const res = await fetch(`${API_BASE_URL}/all-books`);
+                // REASON: Use the API's built-in filtering. This is much faster.
+                // The server now does the work of finding the right books.
+                const response = await fetch(`${API_BASE_URL}/all-books?category=${encodeURIComponent(category)}`);
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch books for category: ${category}`);
+                }
+                
                 const data = await res.json();
-                const filteredBooks = data.filter(book => book.category === category);
+                setBooks(data); // The data is already filtered, so we can set it directly.
 
-                const validBooks = await Promise.all(filteredBooks.map(async book => {
-                    const isImageValid = await checkUrl(book.imageURL);
-                    const isPdfValid = await checkUrl(book.pdfURL);
-                    return isImageValid && isPdfValid ? book : null;
-                }));
-
-                const uniqueBooks = removeDuplicates(validBooks.filter(book => book !== null));
-                setBooks(uniqueBooks);
             } catch (error) {
-                console.error("Error fetching books:", error);
+                console.error("Error fetching books by category:", error);
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
             }
         };
 
         fetchBooks();
+        
+        // This effect re-runs whenever the 'category' prop changes
     }, [category]);
 
-    const checkUrl = async (url) => {
-        try {
-            const response = await fetch(url, { method: 'HEAD' });
-            return response.ok;
-        } catch (error) {
-            return false;
-        }
-    };
+    // REASON: No longer needed. This heavy work should be done once on the backend during upload.
+    // const checkUrl = ...
 
-    const removeDuplicates = (books) => {
-        const seen = new Set();
-        return books.filter(book => {
-            if (seen.has(book.id)) { // Assuming 'id' is the unique identifier for books
-                return false;
-            }
-            seen.add(book.id);
-            return true;
-        });
-    };
+    // REASON: No longer needed. The database should ideally not contain duplicates.
+    // If it does, it's more efficient to fix it with a `SELECT DISTINCT` query on the backend.
+    // const removeDuplicates = ...
+
+    // --- Conditional Rendering for better UX ---
+
+    if (isLoading) {
+        return <p>Loading {headline}...</p>;
+    }
+
+    if (error) {
+        return <p>Error: {error}</p>;
+    }
+    
+    // Show a message if no books are found for that category
+    if (books.length === 0) {
+        return <p>No books found for the category "{headline}".</p>
+    }
 
     return (
         <>
