@@ -1,7 +1,9 @@
-import React from 'react'
+import React from "react";
+import { Avatar, Dropdown, Navbar } from "flowbite-react";
+import { FaBlog } from "react-icons/fa6";
 
-import { Avatar, Dropdown, Navbar } from 'flowbite-react';
-import {FaBlog } from "react-icons/fa6";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 const MobileDashboard = () => {
   return (
