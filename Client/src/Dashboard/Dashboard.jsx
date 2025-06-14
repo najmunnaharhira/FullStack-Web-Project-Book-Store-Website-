@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 // import React, { useEffect, useState } from "react";
 // import { Link } from "react-router-dom";
 
@@ -161,12 +163,12 @@ const Dashboard = () => {
       const historyResponse = await fetch(`${API_BASE_URL}/BrowsingHistory`);
       const historyData = await historyResponse.json();
       setBrowsingHistory(historyData);
+      const recommendationsResponse = await fetch(`${API_BASE_URL}/Recommendations`);
 
-      const recommendationsResponse = await fetch((`${API_BASE_URL}/Recommendations`);
       const recommendationsData = await recommendationsResponse.json();
       setRecommendations(recommendationsData);
 
-      const wishlistResponse = await fetch((`${API_BASE_URL}/Wishlist`);
+      const wishlistResponse = await fetch(`${API_BASE_URL}/Wishlist`);
       const wishlistData = await wishlistResponse.json();
       setWishlist(wishlistData);
 

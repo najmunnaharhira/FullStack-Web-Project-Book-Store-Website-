@@ -70,6 +70,17 @@ const EditBooks = () => {
 
       body: JSON.stringify(bookObj),
     })
+      fetch(`${API_BASE_URL}/book/${id}`, {
+  method: "PATCH",
+  headers: {
+    "Content-type": "application/json",
+  }, 
+  body: JSON.stringify(bookObj),
+})
+  .then((res) => res.json())
+  .then((data) => {
+    console.log(data);
+  });
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

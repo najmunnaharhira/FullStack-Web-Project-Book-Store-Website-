@@ -8,6 +8,8 @@ const mysql = require("mysql2/promise");
 const bcrypt = require("bcrypt");
 const port = process.env.PORT || 5000;
 
+require("dotenv").config();
+
 // Middleware
 app.use(cors());
 app.use(express.json());
