@@ -1,6 +1,66 @@
+
+
+# 📚 Book Store Website
+
+A **Full Stack Book Store Website** made with **React, Node.js, Express, MySQL, and Tailwind CSS**.
+This application allows users to view books, add them to their basket, manage their profiles, and perform other related operations.
+
+
+## 🌟 Features
+
+* User authentication and authorization
+* View, search, and filter books
+* Add books to basket
+* Manage profile and account details
+* User-friendly UI with **React** and **Tailwind CSS**
+
+
+## ⚙ Tech Stack
+
+* **Frontend:** React, Tailwind CSS
+* **Backend:** Node.js, Express
+* **Database:** MySQL
+* **Other:** CRUD operations, API routes, Authentication with JWT, and password hashing with Bcrypt
+
+
+## 🏹 Installation & Run
+
+**Clone the repository:**
+
+```bash
+git clone https://github.com/najmunnaharhira/FullStack-Web-Project-Book-Store-Website-.git
+cd FullStack-Web-Project-Book-Store-Website-
+```
+
+**Installing dependencies:**
+
+```bash
+# Frontend
+cd frontend
+npm install
+
+# Backend
+cd backend
+npm install
+```
+
+**Start the application:**
+
+```bash
+# Frontend
+npm start
+
+# Backend
+npm start
+```
+
+
+## 📸 Screenshots
+
+Here are some snapshots of the application:
+
 ![Screenshot (417)](https://github.com/user-attachments/assets/6bef57f8-4338-4549-8fbb-68583cbf815b)
 ![Screenshot (411)](https://github.com/user-attachments/assets/4b1b69d3-266b-4b0d-84e1-a55b80eea54e)
-
 ![Screenshot (417)](https://github.com/user-attachments/assets/6bef57f8-4338-4549-8fbb-68583cbf815b)
 ![Screenshot (415)](https://github.com/user-attachments/assets/fd38c9e4-a3d9-47a6-9b7e-d9747352fa6d)
 ![Screenshot (414)](https://github.com/user-attachments/assets/ff05996d-9caf-477a-beff-15bc058a561b)
@@ -48,4 +108,17 @@
 ![Screenshot (363)](https://github.com/user-attachments/assets/24d91be0-87b6-431a-8c8f-a407a5a233c1)
 ![Screenshot 2024-06-15 163636](https://github.com/user-attachments/assets/c0adbefb-70f3-419f-ba42-07d85ed450ed)
 ![Screenshot (362)](https://github.com/user-attachments/assets/c23cd9ee-97af-48c6-bb02-bfac4595ee17)
+
+
+
+## 📝 Contributing
+
+Contributions are welcome! Please **fork the repository**, create a new branch, make your tweaks, and submit a **Pull Request**.
+
+
+## 🔑 License
+
+This project is licensed under the **MIT license**.
+
+
 
