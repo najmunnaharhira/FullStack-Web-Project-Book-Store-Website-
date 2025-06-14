@@ -84,7 +84,7 @@ export const Banner = () => {
         const category = event.target.value;
         setSelectedCategory(category);
         try {
-            const response = await fetch(`${API_BASE_URL}/all-books?category=${category}`);
+            // const response = await fetch(`${API_BASE_URL}/all-books?category=${category}`);
             if (response.ok) {
                 const data = await response.json();
                 setSearchResults(data);
