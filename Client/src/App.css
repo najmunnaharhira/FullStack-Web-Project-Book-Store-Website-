@@ -1,0 +1,31 @@
+header, nav{
+  z-index: 100001 !important;
+}
+
+
+.swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+  bottom:  1px !important;
+}
+
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
+/* Custom styles */
+.bookImage {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.titleText {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.card {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 8px;
+  text-align: center;
+}
+
