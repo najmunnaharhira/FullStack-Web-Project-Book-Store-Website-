@@ -6,14 +6,14 @@ import { AuthContext } from "../contexts/AuthProvider";
 
 const Signup = () => {
   const [errorMessage, setErrorMessage] = useState('');
-  const { signUpWithGoogle, createUserWithEmailAndPassword } = useContext(AuthContext);
+  const { signUpWithGmail, createUser } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || '/';
 
   // Handle registration with Google
   const handleRegister = () => {
-    signUpWithGoogle()
+    signUpWithGmail()
       .then(() => {
         navigate(from, { replace: true });
       })
@@ -31,7 +31,7 @@ const Signup = () => {
     const password = form.password.value;
 
     try {
-      await createUserWithEmailAndPassword(email, password);
+      await createUser(email, password);
       navigate(from, { replace: true });
     } catch (error) {
       console.error('Email/password sign up error:', error);

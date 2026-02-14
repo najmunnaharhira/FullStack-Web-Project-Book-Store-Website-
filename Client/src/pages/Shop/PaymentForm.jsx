@@ -12,7 +12,7 @@ import {
 } from "@stripe/react-stripe-js";
 
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || "");
 
 const PaymentForm = ({
   checkoutToken,
@@ -37,7 +37,7 @@ const PaymentForm = ({
       console.log("[error]", error);
     } else {
       const orderData = {
-        line_items: checkoutToken.live.line_items,
+        line_items: checkoutToken?.live?.line_items ?? [],
         customer: {
           firstname: shippingData.firstName,
           lastname: shippingData.lastName,
@@ -89,7 +89,7 @@ const PaymentForm = ({
                   disabled={!stripe}
                   style={{ backgroundColor: "#001524", color: "#FFFF" }}
                 >
-                  Pay {checkoutToken.live.subtotal.formatted_with_symbol}
+                  Pay {checkoutToken?.live?.subtotal?.formatted_with_symbol ?? "0.00"}
                 </Button>
               </div>
             </form>
