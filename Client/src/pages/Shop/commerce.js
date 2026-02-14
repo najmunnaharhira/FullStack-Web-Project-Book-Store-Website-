@@ -1,3 +1,9 @@
-import Commerce from "@chec/commerce.js";
+// Stub for Commerce.js – use your own backend or replace with real @chec/commerce.js
+const commerce = {
+  products: {
+    retrieve: async () => ({ name: "", price: { formatted_with_symbol: "" }, media: { source: "" }, quantity: 0, description: "" }),
+  },
+};
 
-export const commerce = new Commerce(process.env.REACT_APP_CHEC_PUBLIC_KEY, true);
+export { commerce };
+export default commerce;

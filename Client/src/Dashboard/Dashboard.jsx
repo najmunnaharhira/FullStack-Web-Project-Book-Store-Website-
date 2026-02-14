@@ -12,29 +12,30 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const historyResponse = await fetch("http://localhost:5000/api/browsing-history");
-      const historyData = await historyResponse.json();
-      setBrowsingHistory(historyData);
-
-      const recommendationsResponse = await fetch("http://localhost:5000/api/recommendations");
-      const recommendationsData = await recommendationsResponse.json();
-      setRecommendations(recommendationsData);
-
-      const wishlistResponse = await fetch("http://localhost:5000/api/wishlist");
-      const wishlistData = await wishlistResponse.json();
-      setWishlist(wishlistData);
-
-      const cartResponse = await fetch("http://localhost:5000/api/cart");
-      const cartData = await cartResponse.json();
-      setCartItems(cartData);
-
-      const reviewsResponse = await fetch("http://localhost:5000/api/reviews");
-      const reviewsData = await reviewsResponse.json();
-      setReviews(reviewsData);
-
-      const tasksResponse = await fetch("http://localhost:5000/api/daily-tasks");
-      const tasksData = await tasksResponse.json();
-      setDailyTasks(tasksData);
+      try {
+        const [historyRes, recsRes, wishlistRes, cartRes, reviewsRes, tasksRes] = await Promise.all([
+          fetch("http://localhost:5000/api/browsing-history"),
+          fetch("http://localhost:5000/api/recommendations"),
+          fetch("http://localhost:5000/api/wishlist"),
+          fetch("http://localhost:5000/api/cart"),
+          fetch("http://localhost:5000/api/reviews"),
+          fetch("http://localhost:5000/api/daily-tasks"),
+        ]);
+        setBrowsingHistory(historyRes.ok ? await historyRes.json() : []);
+        setRecommendations(recsRes.ok ? await recsRes.json() : []);
+        setWishlist(wishlistRes.ok ? await wishlistRes.json() : []);
+        setCartItems(cartRes.ok ? await cartRes.json() : []);
+        setReviews(reviewsRes.ok ? await reviewsRes.json() : []);
+        setDailyTasks(tasksRes.ok ? await tasksRes.json() : []);
+      } catch (err) {
+        console.error("Dashboard fetch error:", err);
+        setBrowsingHistory([]);
+        setRecommendations([]);
+        setWishlist([]);
+        setCartItems([]);
+        setReviews([]);
+        setDailyTasks([]);
+      }
     };
 
     fetchData();

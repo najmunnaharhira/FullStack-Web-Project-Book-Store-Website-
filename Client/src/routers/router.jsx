@@ -4,7 +4,6 @@ import App from "../App";
 import Blog from "../pages/blog/Blog";
 import Cart from "../pages/Shop/Cart";
 import Checkout from "../pages/Shop/Checkout";
-import Commerce from "../pages/Shop/commerce";
 import CustomField from "../pages/Shop/CustomField";
 import Dashboard from "../Dashboard/Dashboard";
 import DashboardLayout from "../Dashboard/DashboardLayout";
@@ -24,13 +23,12 @@ import ProductView from "../pages/Shop/ProductView/ProductView";
 import Profile from "../pages/Profile";
 import React from "react";
 import Review from "../pages/Shop/Review";
-import Shop from "../pages/shop/Shop";
-import Signup from "../pages/Shop/Signup";
+import Shop from "../pages/Shop/Shop";
+import Signup from "../pages/Signup";
 import SingleBook from "../pages/shared/SingleBook";
 import UpdateProfile from "../pages/UpdateProfile";
 import UploadBook from "../Dashboard/UploadBook";
 import UserDashboard from "../Dashboard/userDashboard/UserDashboard";
-import commerce from "../pages/Shop/commerce";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -40,7 +38,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '/',
+        index: true,
         element: <Home />
       },
       {
@@ -103,10 +101,6 @@ const router = createBrowserRouter([
       {
         path: '/mobile-dashboard',
         element: <MobileDashboard />
-      },
-      {
-        path: '/commerce',
-        element: <Commerce />
       },
       {
         path: '/footer-main',

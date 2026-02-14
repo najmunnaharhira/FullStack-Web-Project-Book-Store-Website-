@@ -1,7 +1,6 @@
 import "swiper/css";
 import "swiper/css/pagination";
 import React, { useEffect, useRef, useState } from "react";
-import img1 from "../../assets/banner-books/book1.png";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { Pagination } from "swiper/modules";

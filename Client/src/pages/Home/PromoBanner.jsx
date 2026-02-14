@@ -1,5 +1,6 @@
 import React from 'react'
-import bookPic from '../../assets/awardbooks.png'
+
+const bookPic = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400";
 
 const PromoBanner = () => {
     return (

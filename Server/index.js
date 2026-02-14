@@ -21,6 +21,11 @@ const dbConfig = {
 // Initialize MySQL connection pool
 const pool = mysql.createPool(dbConfig);
 
+// Prevent MySQL pool errors from crashing the process
+pool.on("error", (err) => {
+  console.error("MySQL pool error:", err.message);
+});
+
 // Root endpoint
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -167,9 +172,10 @@ app.get("/book/:id", async (req, res) => {
 // Get browsing history for a user
 app.get("/api/browsing-history", async (req, res) => {
   const userId = req.query.userId;
+  if (!userId) return res.send([]);
   try {
     const [rows] = await pool.query(
-      "SELECT b.id, b.bookTitle FROM BrowsingHistory bh JOIN books b ON bh.book_id = b.id WHERE bh.user_id = ? ORDER BY bh.browsed_at DESC",
+      "SELECT b.id, b.bookTitle as title FROM BrowsingHistory bh JOIN books b ON bh.book_id = b.id WHERE bh.user_id = ? ORDER BY bh.browsed_at DESC",
       [userId]
     );
     res.send(rows);
@@ -181,9 +187,10 @@ app.get("/api/browsing-history", async (req, res) => {
 // Get recommendations for a user
 app.get("/api/recommendations", async (req, res) => {
   const userId = req.query.userId;
+  if (!userId) return res.send([]);
   try {
     const [rows] = await pool.query(
-      "SELECT b.id, b.bookTitle FROM Recommendations r JOIN books b ON r.book_id = b.id WHERE r.user_id = ? ORDER BY r.recommended_at DESC",
+      "SELECT b.id, b.bookTitle as title FROM Recommendations r JOIN books b ON r.book_id = b.id WHERE r.user_id = ? ORDER BY r.recommended_at DESC",
       [userId]
     );
     res.send(rows);
@@ -195,9 +202,10 @@ app.get("/api/recommendations", async (req, res) => {
 // Get wishlist for a user
 app.get("/api/wishlist", async (req, res) => {
   const userId = req.query.userId;
+  if (!userId) return res.send([]);
   try {
     const [rows] = await pool.query(
-      "SELECT b.id, b.bookTitle FROM Wishlist w JOIN books b ON w.book_id = b.id WHERE w.user_id = ? ORDER BY w.added_at DESC",
+      "SELECT b.id, b.bookTitle as title FROM Wishlist w JOIN books b ON w.book_id = b.id WHERE w.user_id = ? ORDER BY w.added_at DESC",
       [userId]
     );
     res.send(rows);
@@ -206,29 +214,75 @@ app.get("/api/wishlist", async (req, res) => {
   }
 });
 
+// Get cart for a user (optional userId)
+app.get("/api/cart", async (req, res) => {
+  const userId = req.query.userId;
+  if (!userId) return res.send([]);
+  try {
+    const [rows] = await pool.query(
+      "SELECT c.id, b.bookTitle as title, c.quantity FROM CartItems c JOIN books b ON c.book_id = b.id WHERE c.user_id = ? ORDER BY c.added_at DESC",
+      [userId]
+    );
+    res.send(rows);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
-app.get('/tasks/:userId', (req, res) => {
+// Get all reviews
+app.get("/api/reviews", async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT id, book_id, content FROM reviews");
+    res.send(rows);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// Daily tasks for a user (optional userId)
+app.get("/api/daily-tasks", async (req, res) => {
+  const userId = req.query.userId;
+  if (!userId) return res.send([]);
+  try {
+    const [rows] = await pool.query("SELECT * FROM tasks WHERE user_id = ?", [userId]);
+    res.send(rows);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+app.get('/tasks/:userId', async (req, res) => {
   const userId = req.params.userId;
-  const sql = `SELECT * FROM tasks WHERE user_id = ?`;
-  db.query(sql, [userId], (err, results) => {
-      if (err) throw err;
-      res.json(results);
-  });
+  try {
+    const [rows] = await pool.query('SELECT * FROM tasks WHERE user_id = ?', [userId]);
+    res.json(rows);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
 async function run() {
   try {
-    // Check if connection to the MySQL server is successful
     const connection = await pool.getConnection();
     console.log("Successfully connected to MySQL!");
     connection.release();
-
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-    });
   } catch (err) {
-    console.error("Unable to connect to MySQL:", err.message);
+    console.warn("MySQL not connected:", err.message);
+    console.warn("Server will run but book/auth data will fail until MySQL is set up. Run Server/db.sql in MySQL.");
   }
+
+  const server = app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
+
+  server.on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(`Port ${port} is already in use. Stop the other process or use a different PORT.`);
+    } else {
+      console.error("Server error:", err.message);
+    }
+    process.exit(1);
+  });
 }
 
 run();

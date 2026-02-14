@@ -1,16 +1,16 @@
 import React from "react";
-import router from "./router";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        {router.map((route, index) => (
-          <Route key={index} {...route} />
-        ))}
-      </Routes>
-    </BrowserRouter>
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <header style={{ padding: "1rem 1.5rem", background: "#0d9488", color: "white", fontWeight: "bold", fontSize: "1.25rem" }}>
+        Online Book Shop
+      </header>
+      <main style={{ flex: 1 }}>
+        <Outlet />
+      </main>
+    </div>
   );
 };
 

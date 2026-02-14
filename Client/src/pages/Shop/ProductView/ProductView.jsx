@@ -1,7 +1,7 @@
 import "./style.css";
 import { Button, Container, Grid, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { commerce } from "react";
+import { commerce } from "../commerce";
 import { Link } from "react-router-dom";
 
 const createMarkup = (text) => {

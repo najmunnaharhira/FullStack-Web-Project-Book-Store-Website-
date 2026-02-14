@@ -15,9 +15,9 @@ const UserDashboard = ({ userId }) => {
         setError(null);
 
         const [browsingRes, recommendationsRes, wishlistRes] = await Promise.all([
-          axios.get(`/api/browsing-history`, { params: { userId } }),
-          axios.get(`/api/recommendations`, { params: { userId } }),
-          axios.get(`/api/wishlist`, { params: { userId } })
+          axios.get(`http://localhost:5000/api/browsing-history`, { params: { userId } }),
+          axios.get(`http://localhost:5000/api/recommendations`, { params: { userId } }),
+          axios.get(`http://localhost:5000/api/wishlist`, { params: { userId } })
         ]);
 
         setBrowsingHistory(browsingRes.data);

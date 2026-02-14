@@ -5,7 +5,10 @@ const OtherBooks = () => {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/all-books").then(res => res.json()).then(data => setBooks(data.slice(5, 12)))
+        fetch("http://localhost:5000/all-books")
+            .then(res => res.ok ? res.json() : [])
+            .then(data => setBooks(Array.isArray(data) ? data.slice(5, 12) : []))
+            .catch(() => setBooks([]));
     }, [])
 
     return (

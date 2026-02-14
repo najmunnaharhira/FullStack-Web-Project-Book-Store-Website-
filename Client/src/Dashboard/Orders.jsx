@@ -1,4 +1,4 @@
-import DashboardLayout from "../DashboardLayout";
+import DashboardLayout from "./DashboardLayout";
 import React, { useEffect, useState } from "react";
 import { isAuthenticated } from "../auth";
 

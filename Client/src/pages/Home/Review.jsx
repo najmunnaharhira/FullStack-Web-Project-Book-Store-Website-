@@ -2,11 +2,12 @@ import "swiper/css";
 import "swiper/css/pagination";
 import React from "react";
 import ReviewCard from "../shared/ReviewCard";
-import profile from "../../assets/profile.jpg";
-import profile2 from "../../assets/people/profile2.png";
-import profile3 from "../../assets/people/profile3.png";
-import profile4 from "../../assets/people/profile4.png";
 import { Avatar } from "flowbite-react";
+
+const profile = "https://ui-avatars.com/api/?name=Farhana&background=0d9488&color=fff";
+const profile2 = "https://ui-avatars.com/api/?name=Jese&background=0d9488&color=fff";
+const profile3 = "https://ui-avatars.com/api/?name=Sultana&background=0d9488&color=fff";
+const profile4 = "https://ui-avatars.com/api/?name=Farhan&background=0d9488&color=fff";
 import { FaStar } from "react-icons/fa6";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";

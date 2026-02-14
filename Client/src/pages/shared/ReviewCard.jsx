@@ -1,5 +1,6 @@
-import profile1 from "../../assets/people/profile1.png";
 import { Avatar } from "flowbite-react";
+
+const profile1 = "https://ui-avatars.com/api/?name=John+Doe&background=0d9488&color=fff";
 import { FaStar } from "react-icons/fa6";
 
 // import profile2 from "../../assets/people/profile2.png";

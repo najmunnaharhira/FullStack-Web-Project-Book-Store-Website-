@@ -1,7 +1,7 @@
 
 import { Sidebar } from 'flowbite-react';
 import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiSupport, HiTable, HiUser, HiViewBoards, HiOutlineCloudUpload } from 'react-icons/hi';
-import img from '../../src/assets/profile.jpg'
+const img = "https://ui-avatars.com/api/?name=User&background=0d9488&color=fff";
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthProvider';

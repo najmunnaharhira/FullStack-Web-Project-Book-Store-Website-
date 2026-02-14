@@ -79,19 +79,19 @@ INSERT INTO users (email, password) VALUES
 
 CREATE TABLE BrowsingHistory (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    user.id INT,
-    book.id INT,
+    user_id INT,
+    book_id INT,
     browsed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(id),
-    FOREIGN KEY (book_id) REFERENCES Books(id)
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (book_id) REFERENCES books(id)
 );
 CREATE TABLE Recommendations (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
     book_id INT,
     recommended_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(id),
-    FOREIGN KEY (book_id) REFERENCES Books(id)
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (book_id) REFERENCES books(id)
 );
 
 CREATE TABLE Wishlist (
@@ -99,8 +99,8 @@ CREATE TABLE Wishlist (
     user_id INT,
     book_id INT,
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(id),
-    FOREIGN KEY (book_id) REFERENCES Books(id)
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (book_id) REFERENCES books(id)
 );
 
 CREATE TABLE CartItems (
@@ -109,8 +109,8 @@ CREATE TABLE CartItems (
     book_id INT,
     quantity INT DEFAULT 1,
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(id),
-    FOREIGN KEY (book_id) REFERENCES Books(id)
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (book_id) REFERENCES books(id)
 );
 INSERT INTO BrowsingHistory (user_id, book_id) VALUES
 (1, 1),
@@ -124,6 +124,14 @@ INSERT INTO CartItems (user_id, book_id, quantity) VALUES
 (1, 1, 2),
 (2, 2, 1);
 
+CREATE TABLE IF NOT EXISTS tasks (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    description VARCHAR(500),
+    completed TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
 
 INSERT INTO books (bookTitle, authorName, imageURL, category, bookDescription, bookPDFURL) VALUES
 

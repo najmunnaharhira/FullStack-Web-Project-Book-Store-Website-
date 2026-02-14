@@ -1,14 +1,11 @@
 import React from "react";
-import bookDeliveryIcon from "../../assets/services/icon1.png";
-import bookRecommendationIcon from "../../assets/services/icon2.png";
-import giftCardIcon from "../../assets/services/icon4.png";
-import onlineOrderingIcon from "../../assets/services/icon3.png";
 
+const placeholderIcon = "https://cdn-icons-png.flaticon.com/64/3143/3143637.png";
 const serviceLists = [
-  { id: 1, title: "Book Delivery", des: "We deliver your books promptly to your door", img: bookDeliveryIcon },
-  { id: 2, title: "Personalized Recommendations", des: "Get book suggestions tailored to your preferences", img: bookRecommendationIcon },
-  { id: 3, title: "Online Ordering", des: "Explore our catalog & order with ease using our Online Ordering", img: onlineOrderingIcon },
-  { id: 4, title: "Gift Cards", des: "Give the gift of reading with our Bookstore Gift Cards", img: giftCardIcon },
+  { id: 1, title: "Book Delivery", des: "We deliver your books promptly to your door", img: placeholderIcon },
+  { id: 2, title: "Personalized Recommendations", des: "Get book suggestions tailored to your preferences", img: placeholderIcon },
+  { id: 3, title: "Online Ordering", des: "Explore our catalog & order with ease using our Online Ordering", img: placeholderIcon },
+  { id: 4, title: "Gift Cards", des: "Give the gift of reading with our Bookstore Gift Cards", img: placeholderIcon },
 ];
 
 const OurServices = () => {

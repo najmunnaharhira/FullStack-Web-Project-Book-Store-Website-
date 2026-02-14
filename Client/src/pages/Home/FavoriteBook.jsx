@@ -1,6 +1,7 @@
 import React from "react";
-import favBook from "../../assets/favoritebook.jpg";
 import { Link } from "react-router-dom";
+
+const favBook = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400";
 
 const FavoriteBook = () => {
   return (

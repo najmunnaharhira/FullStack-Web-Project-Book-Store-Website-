@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthProvider";
+import { AuthContext } from "../contexts/AuthProvider.jsx";
 
 const UpdateProfile = () => {
   const { updateUserProfile } = useContext(AuthContext);

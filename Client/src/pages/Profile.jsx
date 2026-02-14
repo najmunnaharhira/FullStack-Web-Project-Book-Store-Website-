@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 
 const Profile = ({ user }) => {
   const { logOut } = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await logOut();
       // Redirect to login or another page after logout
-      history.push("/login");
+      navigate("/login");
     } catch (error) {
       console.error("Logout error:", error.message);
       // Handle error, show message, etc.
