@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaBarsStaggered, FaBlog, FaUser, FaXmark } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-
-// import { useAuth } from "../context/AuthProvider";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 
 
 
 const Navbar = () => {
+    const { user: authUser } = useContext(AuthContext);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSticky, setIsSticky] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
-     // Assuming you have an AuthProvider context
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -83,18 +82,16 @@ const Navbar = () => {
                                 </svg>
                             )}
                         </button>
-                        {/* {authUser ? (
-                            <Link to="/profile">
-                                <FaUser className="w-6 h-6 hover:text-blue-700" />
+                        {authUser ? (
+                            <Link to="/profile" className="flex items-center gap-2 hover:text-blue-700">
+                                <FaUser className="w-6 h-6" /> Profile
                             </Link>
                         ) : (
                             <Link to="/login">
                                 <button className="bg-black text-white px-3 py-2 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">Login</button>
                             </Link>
-                        )} */}
-                        {/* <Link to="/cart">
-                            <FaShoppingCart className="w-6 h-6 hover:text-blue-700" />
-                        </Link> */}
+                        )}
+                        <Link to="/cart" className="hover:text-blue-700 font-medium">Cart</Link>
                     </div>
 
                     {/* Menu button, visible on mobile screen */}
@@ -105,11 +102,11 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                <div className={`space-y-4 px-4 mt-16 py-7 bg-blue-700 ${isMenuOpen ? "block fixed top-0 right-0 left-0" : "hidden"}`}>
+                <div className={`space-y-4 px-4 mt-16 py-7 bg-blue-700 ${isMenuOpen ? "block fixed top-0 right-0 left-0 z-50" : "hidden"}`}>
                     {navItems.map(({ link, path }) => (
-                        <a href={path} key={link} onClick={toggleMenu} className="block text-white hover:text-gray-500">
+                        <Link to={path} key={link} onClick={toggleMenu} className="block text-white hover:text-gray-500">
                             {link}
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </nav>

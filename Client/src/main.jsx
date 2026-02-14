@@ -1,6 +1,7 @@
 import "./index.css";
 import App from "./App.jsx";
 import AuthProvider from "./contexts/AuthProvider.jsx";
+import { CartProvider } from "./contexts/CartContext.jsx";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import router from "./routers/router.jsx";
@@ -36,9 +37,11 @@ if (!rootEl) {
     <React.StrictMode>
       <ErrorBoundary>
         <AuthProvider>
-          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>}>
-            <RouterProvider router={router} />
-          </Suspense>
+          <CartProvider>
+            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>}>
+              <RouterProvider router={router} />
+            </Suspense>
+          </CartProvider>
         </AuthProvider>
       </ErrorBoundary>
     </React.StrictMode>,

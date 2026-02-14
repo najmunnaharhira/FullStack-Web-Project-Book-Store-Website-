@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { AuthContext } from "../../contexts/AuthProvider";
 
-const UserDashboard = ({ userId }) => {
+const UserDashboard = ({ userId: userIdProp }) => {
+  const { user: authUser } = useContext(AuthContext);
+  const userId = userIdProp ?? authUser?.uid ?? null;
   const [browsingHistory, setBrowsingHistory] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [wishlist, setWishlist] = useState([]);
@@ -10,6 +13,10 @@ const UserDashboard = ({ userId }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!userId) {
+        setLoading(false);
+        return;
+      }
       try {
         setLoading(true);
         setError(null);
@@ -20,11 +27,14 @@ const UserDashboard = ({ userId }) => {
           axios.get(`http://localhost:5000/api/wishlist`, { params: { userId } })
         ]);
 
-        setBrowsingHistory(browsingRes.data);
-        setRecommendations(recommendationsRes.data);
-        setWishlist(wishlistRes.data);
+        setBrowsingHistory(Array.isArray(browsingRes.data) ? browsingRes.data : []);
+        setRecommendations(Array.isArray(recommendationsRes.data) ? recommendationsRes.data : []);
+        setWishlist(Array.isArray(wishlistRes.data) ? wishlistRes.data : []);
       } catch (err) {
         setError(err.message);
+        setBrowsingHistory([]);
+        setRecommendations([]);
+        setWishlist([]);
       } finally {
         setLoading(false);
       }
@@ -34,23 +44,27 @@ const UserDashboard = ({ userId }) => {
   }, [userId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="p-8">Loading...</div>;
+  }
+
+  if (!userId) {
+    return <div className="p-8">Please log in to see your dashboard.</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="p-8">Error loading data: {error}</div>;
   }
 
   return (
-    <div>
-      <h1>User Dashboard</h1>
+    <div className="p-8 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6">User Dashboard</h1>
 
       <section>
         <h2>Browsing History</h2>
         {browsingHistory.length > 0 ? (
           <ul>
             {browsingHistory.map((book) => (
-              <li key={book.id}>{book.bookTitle}</li>
+              <li key={book.id}>{book.title ?? book.bookTitle ?? "Untitled"}</li>
             ))}
           </ul>
         ) : (
@@ -63,7 +77,7 @@ const UserDashboard = ({ userId }) => {
         {recommendations.length > 0 ? (
           <ul>
             {recommendations.map((book) => (
-              <li key={book.id}>{book.bookTitle}</li>
+              <li key={book.id}>{book.title ?? book.bookTitle ?? "Untitled"}</li>
             ))}
           </ul>
         ) : (
@@ -76,7 +90,7 @@ const UserDashboard = ({ userId }) => {
         {wishlist.length > 0 ? (
           <ul>
             {wishlist.map((book) => (
-              <li key={book.id}>{book.bookTitle}</li>
+              <li key={book.id}>{book.title ?? book.bookTitle ?? "Untitled"}</li>
             ))}
           </ul>
         ) : (

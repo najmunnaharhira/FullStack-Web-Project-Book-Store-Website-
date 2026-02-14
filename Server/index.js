@@ -261,6 +261,11 @@ app.get('/tasks/:userId', async (req, res) => {
   }
 });
 
+// Orders list for a user (returns empty array if no orders table – extend when orders DB exists)
+app.get("/api/orders/:userId", (req, res) => {
+  res.json([]);
+});
+
 async function run() {
   try {
     const connection = await pool.getConnection();

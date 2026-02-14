@@ -3,10 +3,15 @@ import { Link } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
 
 const Cart = () => {
-  const { cart } = useContext(CartContext);
+  const { cart, removeFromCart } = useContext(CartContext);
 
   if (cart.length === 0) {
-    return <div className="my-28 text-center">Your cart is empty.</div>;
+    return (
+      <div className="my-28 px-4 text-center">
+        <h2 className="text-2xl font-bold mb-4">Your cart is empty.</h2>
+        <Link to="/shop" className="text-blue-600 hover:underline">Continue shopping</Link>
+      </div>
+    );
   }
 
   return (
@@ -21,8 +26,15 @@ const Cart = () => {
               <p>{book.bookDescription}</p>
               <div className="card-actions justify-between items-center mt-2">
                 <h5 className="font-semibold">
-                  <span className="text-sm text-red">$</span> {book.price}
+                  <span className="text-sm text-red">$</span> {book.price != null ? book.price : "N/A"}
                 </h5>
+                <button
+                  type="button"
+                  onClick={() => removeFromCart(index)}
+                  className="btn btn-sm btn-error"
+                >
+                  Remove
+                </button>
               </div>
             </div>
           </div>

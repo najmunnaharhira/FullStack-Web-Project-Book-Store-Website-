@@ -41,9 +41,17 @@ const AuthProvider = ({children}) => {
 
     useEffect( () =>{
         const unsubscribe = onAuthStateChanged(auth, currentUser =>{
-            console.log(currentUser);
             setUser(currentUser);
             setLoading(false);
+            if (currentUser) {
+                try {
+                    localStorage.setItem("user", JSON.stringify({ uid: currentUser.uid, email: currentUser.email, displayName: currentUser.displayName }));
+                    if (!localStorage.getItem("genius-token")) localStorage.setItem("genius-token", currentUser.uid);
+                } catch (e) {}
+            } else {
+                localStorage.removeItem("user");
+                localStorage.removeItem("genius-token");
+            }
         });
 
         return () =>{

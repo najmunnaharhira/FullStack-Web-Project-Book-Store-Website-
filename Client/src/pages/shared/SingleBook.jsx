@@ -7,8 +7,11 @@ import { useLoaderData } from "react-router-dom";
 
 const SingleBook = () => {
     const data = useLoaderData();
-    const { bookTitle, imageURL, bookDescription, authorName, pdfURL } = data;
-    console.log(data);
+    const bookTitle = data?.bookTitle ?? "";
+    const imageURL = data?.imageURL ?? "";
+    const bookDescription = data?.bookDescription ?? "";
+    const authorName = data?.authorName ?? "";
+    const pdfURL = data?.bookPDFURL ?? data?.pdfURL ?? "";
 
     return (
         <div className='mt-20'>
@@ -30,7 +33,7 @@ const SingleBook = () => {
             <div className='my-28 px-4 lg:px-24'>
                 <h2 className='text-3xl font-bold text-center mb-16 z-40'>Book Details</h2>
                 <Card className='mx-auto max-w-2xl'>
-                    <img src={imageURL} alt={bookTitle} className='h-96 w-full object-cover' />
+                    <img src={imageURL || "https://via.placeholder.com/400"} alt={bookTitle} className='h-96 w-full object-cover' />
                     <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                         {bookTitle}
                     </h5>

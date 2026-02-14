@@ -4,8 +4,13 @@ import { useLoaderData, useParams } from 'react-router-dom';
 
 const EditBooks = () => {
   const { id } = useParams();
-  const { bookTitle, authorName, imageURL, category, bookDescription, bookPDFURL } = useLoaderData();
-  // console.log(bookTitle)
+  const data = useLoaderData() || {};
+  const bookTitle = data.bookTitle ?? "";
+  const authorName = data.authorName ?? "";
+  const imageURL = data.imageURL ?? "";
+  const category = data.category ?? "";
+  const bookDescription = data.bookDescription ?? "";
+  const bookPDFURL = data.bookPDFURL ?? "";
 
   const bookCategories = [
     "Fiction",

@@ -96,7 +96,11 @@ const router = createBrowserRouter([
       {
         path: '/book/:id',
         element: <SingleBook />,
-        loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
+        loader: async ({ params }) => {
+          const res = await fetch(`http://localhost:5000/book/${params.id}`);
+          if (!res.ok) throw new Response("Book not found", { status: 404 });
+          return res.json();
+        }
       },
       {
         path: '/about',
@@ -132,10 +136,14 @@ const router = createBrowserRouter([
         path: 'manage', 
         element: <ManageBooks /> 
       },
-      { 
-        path: 'edit-books/:id', 
+{
+        path: 'edit-books/:id',
         element: <EditBooks />,
-        loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
+        loader: async ({ params }) => {
+          const res = await fetch(`http://localhost:5000/book/${params.id}`);
+          if (!res.ok) throw new Response("Book not found", { status: 404 });
+          return res.json();
+        }
       }
     ],
   },

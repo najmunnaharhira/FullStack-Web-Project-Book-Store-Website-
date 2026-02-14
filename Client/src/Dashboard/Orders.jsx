@@ -7,51 +7,42 @@ const Orders = () => {
   const [statusValues, setStatusValues] = useState([]);
 
   const { user, token } = isAuthenticated();
+  const userId = user?._id;
 
-  // Fetch orders from the backend
+  // Fetch orders from the backend (if API exists)
   const loadOrders = () => {
-    fetch(`http://localhost:5000/api/Orders/${user._id}`, {
+    if (!userId) return;
+    fetch(`http://localhost:5000/api/orders/${userId}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: token ? `Bearer ${token}` : "",
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          setOrders(data);
-        }
-      })
-      .catch((err) => console.log(err));
+      .then((response) => response.ok ? response.json() : [])
+      .then((data) => setOrders(Array.isArray(data) ? data : []))
+      .catch(() => setOrders([]));
   };
 
   // Fetch status values for orders
   const loadStatusValues = () => {
-    fetch(`http://localhost:5000/api/order/status-values/${user._id}`, {
+    if (!userId) return;
+    fetch(`http://localhost:5000/api/order/status-values/${userId}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: token ? `Bearer ${token}` : "",
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          setStatusValues(data);
-        }
-      })
-      .catch((err) => console.log(err));
+      .then((response) => response.ok ? response.json() : [])
+      .then((data) => setStatusValues(Array.isArray(data) ? data : []))
+      .catch(() => setStatusValues([]));
   };
 
   useEffect(() => {
     loadOrders();
     loadStatusValues();
-  }, []);
+  }, [userId]);
 
   const showOrdersLength = () => {
     if (orders.length > 0) {
@@ -71,7 +62,8 @@ const Orders = () => {
   );
 
   const handleStatusChange = (e, orderId) => {
-    fetch(`http://localhost:5000/api/order/${orderId}/status/${user._id}`, {
+    if (!userId) return;
+    fetch(`http://localhost:5000/api/order/${orderId}/status/${userId}`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -93,13 +85,13 @@ const Orders = () => {
 
   const showStatus = (o) => (
     <div className="form-group">
-      <h3 className="mark mb-4">Status: {o.status}</h3>
+      <h3 className="mark mb-4">Status: {o.status ?? "N/A"}</h3>
       <select
         className="form-control"
         onChange={(e) => handleStatusChange(e, o._id)}
       >
         <option>Update Status</option>
-        {statusValues.map((status, index) => (
+        {(statusValues || []).map((status, index) => (
           <option key={index} value={status}>
             {status}
           </option>
@@ -108,10 +100,18 @@ const Orders = () => {
     </div>
   );
 
+  if (!userId) {
+    return (
+      <DashboardLayout title="Orders" description="Please log in to view orders." className="container-fluid">
+        <div className="p-4">Please log in to view your orders.</div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout
       title="Orders"
-      description={`Hello ${user.name}, you can manage all the orders here`}
+      description={`Hello ${user?.name ?? user?.email ?? "User"}, you can manage all the orders here`}
       className="container-fluid"
     >
       <div className="row">
@@ -134,18 +134,17 @@ const Orders = () => {
                   Transaction ID: {o.transaction_id}
                 </li>
                 <li className="list-group-item">Amount: ${o.amount}</li>
-                <li className="list-group-item">Ordered by: {o.user.name}</li>
-               
+                <li className="list-group-item">Ordered by: {o.user?.name ?? o.user?.email ?? "—"}</li>
                 <li className="list-group-item">
-                  Delivery address: {o.address}
+                  Delivery address: {o.address ?? "—"}
                 </li>
               </ul>
 
               <h3 className="mt-4 mb-4 font-italic">
-                Total products in the order: {o.products.length}
+                Total products in the order: {(o.products || []).length}
               </h3>
 
-              {o.products.map((p, pIndex) => (
+              {(o.products || []).map((p, pIndex) => (
                 <div
                   className="mb-3"
                   key={pIndex}

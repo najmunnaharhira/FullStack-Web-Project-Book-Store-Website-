@@ -13,7 +13,8 @@ const BooksByCategory = ({ category, headline }) => {
 
                 const validBooks = await Promise.all(filteredBooks.map(async book => {
                     const isImageValid = await checkUrl(book.imageURL);
-                    const isPdfValid = await checkUrl(book.pdfURL);
+                    const pdfUrl = book.bookPDFURL || book.pdfURL;
+                    const isPdfValid = !pdfUrl || await checkUrl(pdfUrl);
                     return isImageValid && isPdfValid ? book : null;
                 }));
 

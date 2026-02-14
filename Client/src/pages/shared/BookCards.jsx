@@ -16,13 +16,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // react icons
 
-const BookCards = ({headline, books}) => {
+const BookCards = ({ headline, books = [] }) => {
     return (
         <div className='my-16 px-4 lg:px-24'>
             <h2 className='text-5xl my-5 font-bold text-center'>{headline}</h2>
 
             {/* cards */}
             <div className='mt-20'>
+                {!books?.length ? (
+                    <p className="text-center text-gray-500">No books to show.</p>
+                ) : (
                 <Swiper
                     slidesPerView={1}
                     spaceBetween={10}
@@ -70,6 +73,7 @@ const BookCards = ({headline, books}) => {
                     }
 
                 </Swiper>
+                )}
             </div>
 
         </div>
