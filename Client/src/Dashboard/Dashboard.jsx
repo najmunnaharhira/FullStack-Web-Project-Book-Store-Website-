@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { API_BASE } from "../config";
 
 /* eslint-disable no-unused-vars */
 
@@ -14,12 +15,12 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const [historyRes, recsRes, wishlistRes, cartRes, reviewsRes, tasksRes] = await Promise.all([
-          fetch("http://localhost:5000/api/browsing-history"),
-          fetch("http://localhost:5000/api/recommendations"),
-          fetch("http://localhost:5000/api/wishlist"),
-          fetch("http://localhost:5000/api/cart"),
-          fetch("http://localhost:5000/api/reviews"),
-          fetch("http://localhost:5000/api/daily-tasks"),
+          fetch(`${API_BASE}/api/browsing-history`),
+          fetch(`${API_BASE}/api/recommendations`),
+          fetch(`${API_BASE}/api/wishlist`),
+          fetch(`${API_BASE}/api/cart`),
+          fetch(`${API_BASE}/api/reviews`),
+          fetch(`${API_BASE}/api/daily-tasks`),
         ]);
         setBrowsingHistory(historyRes.ok ? await historyRes.json() : []);
         setRecommendations(recsRes.ok ? await recsRes.json() : []);

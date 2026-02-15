@@ -1,5 +1,6 @@
 import BookCards from "../shared/BookCards";
 import React, { useEffect, useState } from "react";
+import { API_BASE } from "../../config";
 
 const BooksByCategory = ({ category, headline }) => {
     const [books, setBooks] = useState([]);
@@ -7,7 +8,7 @@ const BooksByCategory = ({ category, headline }) => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const res = await fetch("http://localhost:5000/all-books");
+                const res = await fetch(`${API_BASE}/all-books`);
                 const data = await res.json();
                 const filteredBooks = data.filter(book => book.category === category);
 

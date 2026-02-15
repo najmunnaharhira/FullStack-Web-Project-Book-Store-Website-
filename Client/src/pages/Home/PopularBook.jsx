@@ -1,11 +1,12 @@
 import BookCards from "../shared/BookCards";
 import React, { useEffect, useState } from "react";
+import { API_BASE } from "../../config";
 
 const PopularBook = () => {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/all-books")
+        fetch(`${API_BASE}/all-books`)
             .then(res => res.ok ? res.json() : [])
             .then(data => setBooks(Array.isArray(data) ? data.slice(20, 28) : []))
             .catch(() => setBooks([]));

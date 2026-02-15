@@ -1,6 +1,7 @@
 import DashboardLayout from "./DashboardLayout";
 import React, { useEffect, useState } from "react";
 import { isAuthenticated } from "../auth";
+import { API_BASE } from "../config";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -12,7 +13,7 @@ const Orders = () => {
   // Fetch orders from the backend (if API exists)
   const loadOrders = () => {
     if (!userId) return;
-    fetch(`http://localhost:5000/api/orders/${userId}`, {
+    fetch(`${API_BASE}/api/orders/${userId}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -27,7 +28,7 @@ const Orders = () => {
   // Fetch status values for orders
   const loadStatusValues = () => {
     if (!userId) return;
-    fetch(`http://localhost:5000/api/order/status-values/${userId}`, {
+    fetch(`${API_BASE}/api/order/status-values/${userId}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -63,7 +64,7 @@ const Orders = () => {
 
   const handleStatusChange = (e, orderId) => {
     if (!userId) return;
-    fetch(`http://localhost:5000/api/order/${orderId}/status/${userId}`, {
+    fetch(`${API_BASE}/api/order/${orderId}/status/${userId}`, {
       method: "PUT",
       headers: {
         Accept: "application/json",

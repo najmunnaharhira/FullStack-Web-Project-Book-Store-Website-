@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthProvider";
+import { API_BASE } from "../../config";
 
 const UserDashboard = ({ userId: userIdProp }) => {
   const { user: authUser } = useContext(AuthContext);
@@ -22,9 +23,9 @@ const UserDashboard = ({ userId: userIdProp }) => {
         setError(null);
 
         const [browsingRes, recommendationsRes, wishlistRes] = await Promise.all([
-          axios.get(`http://localhost:5000/api/browsing-history`, { params: { userId } }),
-          axios.get(`http://localhost:5000/api/recommendations`, { params: { userId } }),
-          axios.get(`http://localhost:5000/api/wishlist`, { params: { userId } })
+          axios.get(`${API_BASE}/api/browsing-history`, { params: { userId } }),
+          axios.get(`${API_BASE}/api/recommendations`, { params: { userId } }),
+          axios.get(`${API_BASE}/api/wishlist`, { params: { userId } })
         ]);
 
         setBrowsingHistory(Array.isArray(browsingRes.data) ? browsingRes.data : []);

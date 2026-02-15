@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Checkbox, Label, Select, TextInput, Textarea } from 'flowbite-react';
 import { useLoaderData, useParams } from 'react-router-dom';
+import { API_BASE } from '../config';
 
 const EditBooks = () => {
   const { id } = useParams();
@@ -66,7 +67,7 @@ const EditBooks = () => {
     // console.log(bookObj)
 
     // update the book object
-    fetch(`http://localhost:5000/book/${id}`, {
+    fetch(`${API_BASE}/book/${id}`, {
       method: "PATCH",
 
       headers: {

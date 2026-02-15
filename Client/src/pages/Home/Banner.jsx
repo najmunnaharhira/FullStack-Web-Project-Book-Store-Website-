@@ -1,5 +1,6 @@
 import BannerCard from "../shared/BannerCard";
 import React, { useState, useEffect } from "react";
+import { API_BASE } from "../../config";
 
 const categories = [
     "Fantasy",
@@ -25,7 +26,7 @@ export const Banner = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/all-books?query=${searchQuery}`);
+            const response = await fetch(`${API_BASE}/all-books?query=${searchQuery}`);
             if (response.ok) {
                 const data = await response.json();
                 setSearchResults(data);
@@ -42,7 +43,7 @@ export const Banner = () => {
         const category = event.target.value;
         setSelectedCategory(category);
         try {
-            const response = await fetch(`http://localhost:5000/all-books?category=${category}`);
+            const response = await fetch(`${API_BASE}/all-books?category=${category}`);
             if (response.ok) {
                 const data = await response.json();
                 setSearchResults(data);

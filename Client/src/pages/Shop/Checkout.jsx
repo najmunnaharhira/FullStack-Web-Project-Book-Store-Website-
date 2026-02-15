@@ -1,5 +1,6 @@
 import PaymentForm from "./PaymentForm";
 import React, { useState } from "react";
+import { API_BASE } from "../../config";
 
 const Checkout = () => {
   const [checkoutToken, setCheckoutToken] = useState(null); // State for holding checkout token
@@ -9,7 +10,7 @@ const Checkout = () => {
   // Function to fetch checkout token from backend API
   const fetchCheckoutToken = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/checkout/token');
+      const response = await fetch(`${API_BASE}/api/checkout/token`);
       if (!response.ok) {
         throw new Error('Failed to fetch checkout token');
       }
@@ -25,7 +26,7 @@ const Checkout = () => {
   // Function to handle capture checkout logic (e.g., API call to backend)
   const handleCaptureCheckout = async (tokenId, newOrder) => {
     try {
-      const response = await fetch('http://localhost:5000/api/checkout/capture', {
+      const response = await fetch(`${API_BASE}/api/checkout/capture`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,10 +1,12 @@
+import { API_BASE } from "../../config";
+
 // Stub for Commerce.js – use your own backend or replace with real @chec/commerce.js
 const commerce = {
   products: {
     retrieve: async (id) => {
       if (id) {
         try {
-          const res = await fetch(`http://localhost:5000/book/${id}`);
+          const res = await fetch(`${API_BASE}/book/${id}`);
           if (res.ok) {
             const data = await res.json();
             return {

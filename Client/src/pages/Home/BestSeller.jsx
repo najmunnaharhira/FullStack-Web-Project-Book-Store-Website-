@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import BookCards from '../shared/BookCards';
+import { API_BASE } from '../../config';
 
 const BestSeller = () => {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/all-books")
+        fetch(`${API_BASE}/all-books`)
             .then(res => res.ok ? res.json() : [])
             .then(data => setBooks(Array.isArray(data) ? data.slice(0, 8) : []))
             .catch(() => setBooks([]));

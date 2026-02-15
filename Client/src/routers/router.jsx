@@ -1,6 +1,7 @@
 import About from "../pages/about/About";
 import AddressForm from "../pages/Shop/AddressForm";
 import App from "../App";
+import { API_BASE } from "../config";
 import Blog from "../pages/blog/Blog";
 import Cart from "../pages/Shop/Cart";
 import Checkout from "../pages/Shop/Checkout";
@@ -97,7 +98,7 @@ const router = createBrowserRouter([
         path: '/book/:id',
         element: <SingleBook />,
         loader: async ({ params }) => {
-          const res = await fetch(`http://localhost:5000/book/${params.id}`);
+          const res = await fetch(`${API_BASE}/book/${params.id}`);
           if (!res.ok) throw new Response("Book not found", { status: 404 });
           return res.json();
         }
@@ -140,7 +141,7 @@ const router = createBrowserRouter([
         path: 'edit-books/:id',
         element: <EditBooks />,
         loader: async ({ params }) => {
-          const res = await fetch(`http://localhost:5000/book/${params.id}`);
+          const res = await fetch(`${API_BASE}/book/${params.id}`);
           if (!res.ok) throw new Response("Book not found", { status: 404 });
           return res.json();
         }

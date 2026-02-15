@@ -3,6 +3,7 @@ import { Card, Spinner } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 import { CartContext } from "../../contexts/CartContext";
+import { API_BASE } from "../../config";
 
 export default function Shop() {
   const { loading } = useContext(AuthContext);
@@ -10,7 +11,7 @@ export default function Shop() {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/all-books')
+    fetch(`${API_BASE}/all-books`)
       .then(res => res.json())
       .then(data => setBooks(data))
       .catch(error => console.error("Error fetching books:", error));
