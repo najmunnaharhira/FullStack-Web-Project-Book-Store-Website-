@@ -1,7 +1,7 @@
 {
-  "buildCommand": "cd Client && npm run build",
-  "outputDirectory": "Client/dist",
-  "installCommand": "cd Client && npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
   "framework": null,
   "rewrites": [
     { "source": "/((?!assets/).*)", "destination": "/index.html" }
