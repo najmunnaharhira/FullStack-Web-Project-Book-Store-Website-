@@ -10,12 +10,12 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// MySQL configuration
+// MySQL configuration (use env vars in Render/production, fallback to local defaults)
 const dbConfig = {
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "BookInventory",
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "",
+  database: process.env.DB_NAME || "BookInventory",
 };
 
 // Initialize MySQL connection pool
